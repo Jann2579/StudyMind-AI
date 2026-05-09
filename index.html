@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyMind AI — Multi-Agent Learning System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <nav>
+    <a class="logo" href="#" onclick="showPage('home')">
+      <div class="logo-dot"></div>
+      StudyMind AI
+    </a>
+    <ul style="align-items: center;">
+      <li><a href="#" onclick="showPage('home')">Home</a></li>
+      <li><a href="#" onclick="showPage('chat')">AI Chat</a></li>
+      <li><a href="#" onclick="showPage('quiz')">Quiz</a></li>
+      <li><a href="#" onclick="showPage('notes')">Notes</a></li>
+      <li><a href="#" onclick="showPage('planner')">Planner</a></li>
+      <li><a href="#" onclick="showPage('analytics')">Analytics</a></li>
+      <li><a href="#" onclick="showPage('motivation')">Motivation</a></li>
+      <li>
+        <a href="#" onclick="showPage('profile')" class="nav-cta" style="display: flex; align-items: center; gap: 6px; padding: 4px 12px !important; border-radius: 100px;">
+          <div style="width: 24px; height: 24px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">👤</div>
+          Profile
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- HOME -->
+  <div id="page-home" class="page active">
+    <div class="hero">
+      <div class="hero-badge">✦ Multi-Agent AI System</div>
+      <h1>Your Personal<br><span>AI Study Team</span></h1>
+      <p>7 specialized AI agents working together — teaching, testing, planning, and motivating you to study smarter.
+      </p>
+      <div class="hero-btns">
+        <button id="google-login-btn" class="btn-primary">
+          Get Started
+        </button>
+        <button class="btn-outline" onclick="showPage('quiz')">Take a Quiz</button>
+      </div>
+    </div>
+
+    <div class="agents-section">
+      <div class="section-label">Meet the Agents</div>
+      <div class="section-title">Your AI Study Team</div>
+      <div class="section-sub">Each agent is specialized — they share data to help you learn smarter.</div>
+      <div class="agents-grid">
+        <div class="agent-card" style="--agent-color:#a89cff;--agent-bg:rgba(124,106,247,0.1)"
+          onclick="openAgent('teacher')">
+          <div class="agent-icon">👩‍🏫</div>
+          <h3>Teacher AI</h3>
+          <p>Explains any concept in easy, exam, or detailed mode. Adapts to your level.</p>
+          <span class="agent-tag">Ask anything</span>
+        </div>
+        <div class="agent-card" style="--agent-color:#fbbf24;--agent-bg:rgba(251,191,36,0.1)"
+          onclick="openAgent('quiz')">
+          <div class="agent-icon">📝</div>
+          <h3>Quiz AI</h3>
+          <p>Auto-generates MCQs, fill-in-blanks, and viva questions by difficulty.</p>
+          <span class="agent-tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Test yourself</span>
+        </div>
+        <div class="agent-card" style="--agent-color:#2dd4bf;--agent-bg:rgba(45,212,191,0.1)"
+          onclick="openAgent('notes')">
+          <div class="agent-icon">📚</div>
+          <h3>Notes AI</h3>
+          <p>Summarizes chapters, creates flashcards, extracts key points from your text.</p>
+          <span class="agent-tag" style="background:rgba(45,212,191,0.1);color:#2dd4bf">Summarize</span>
+        </div>
+        <div class="agent-card" style="--agent-color:#60a5fa;--agent-bg:rgba(96,165,250,0.1)"
+          onclick="showPage('planner')">
+          <div class="agent-icon">📅</div>
+          <h3>Planner AI</h3>
+          <p>Builds personalized timetables with exam countdowns and daily goals.</p>
+          <span class="agent-tag" style="background:rgba(96,165,250,0.1);color:#60a5fa">Plan ahead</span>
+        </div>
+        <div class="agent-card" style="--agent-color:#f472b6;--agent-bg:rgba(244,114,182,0.1)"
+          onclick="showPage('motivation')">
+          <div class="agent-icon">🌟</div>
+          <h3>Motivation AI</h3>
+          <p>Detects burnout, tracks streaks, and keeps you going with encouragement.</p>
+          <span class="agent-tag" style="background:rgba(244,114,182,0.1);color:#f472b6">Stay focused</span>
+        </div>
+        <div class="agent-card" style="--agent-color:#4ade80;--agent-bg:rgba(74,222,128,0.1)"
+          onclick="showPage('analytics')">
+          <div class="agent-icon">📊</div>
+          <h3>Analytics AI</h3>
+          <p>Tracks progress, identifies weak spots, and predicts your exam readiness.</p>
+          <span class="agent-tag" style="background:rgba(74,222,128,0.1);color:#4ade80">See progress</span>
+        </div>
+        <div class="agent-card" style="--agent-color:#f87171;--agent-bg:rgba(248,113,113,0.1)"
+          onclick="openAgent('doubt')">
+          <div class="agent-icon">🤖</div>
+          <h3>Doubt Solver</h3>
+          <p>Subject-specific solver with step-by-step solutions for complex problems.</p>
+          <span class="agent-tag" style="background:rgba(248,113,113,0.1);color:#f87171">Solve doubts</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent Collaboration Banner -->
+    <div style="max-width:1100px;margin:0 auto 4rem;padding:0 2rem;">
+      <div
+        style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
+        <div style="flex:1;min-width:240px;">
+          <div class="section-label">Multi-Agent Intelligence</div>
+          <h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin:0.5rem 0;">Agents talk to
+            each other</h2>
+          <p style="color:var(--text2);font-size:0.9rem;line-height:1.7;">When Quiz AI detects you're weak in calculus,
+            it tells Planner AI — which automatically adds more practice time. All agents share context to build your
+            perfect study plan.</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <div
+            style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#fbbf24;max-width:160px;">
+            📝 Quiz AI: <em style="color:var(--text2);">"Student scored 40% in Calculus"</em>
+          </div>
+          <div style="color:var(--text3);display:flex;align-items:center;font-size:1.2rem;">→</div>
+          <div
+            style="background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#60a5fa;max-width:160px;">
+            📅 Planner AI: <em style="color:var(--text2);">"Adding 2h calculus daily"</em>
+          </div>
+          <div style="color:var(--text3);display:flex;align-items:center;font-size:1.2rem;">→</div>
+          <div
+            style="background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#f472b6;max-width:160px;">
+            🌟 Motivation AI: <em style="color:var(--text2);">"You've got this! 5-day streak!"</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div id="page-chat" class="page">
+    <div class="chat-layout">
+      <div class="chat-sidebar">
+        <h3>AI Agents</h3>
+        <button class="agent-btn active" onclick="switchAgent('teacher', this)"><span class="ab-icon">👩‍🏫</span>
+          Teacher AI</button>
+        <button class="agent-btn" onclick="switchAgent('doubt', this)"><span class="ab-icon">🤖</span> Doubt
+          Solver</button>
+        <button class="agent-btn" onclick="switchAgent('notes', this)"><span class="ab-icon">📚</span> Notes AI</button>
+        <button class="agent-btn" onclick="switchAgent('motivation', this)"><span class="ab-icon">🌟</span> Motivation
+          AI</button>
+        <button class="agent-btn" onclick="switchAgent('planner', this)"><span class="ab-icon">📅</span> Planner
+          AI</button>
+
+        <h3 style="margin-top:1.5rem;">Quick Prompts</h3>
+        <button class="agent-btn" onclick="setQuickPrompt('Explain Newton\'s laws of motion simply')"><span
+            class="ab-icon">⚡</span> Newton's Laws</button>
+        <button class="agent-btn" onclick="setQuickPrompt('What is photosynthesis? Explain in easy mode')"><span
+            class="ab-icon">⚡</span> Photosynthesis</button>
+        <button class="agent-btn" onclick="setQuickPrompt('Solve: x² + 5x + 6 = 0 step by step')"><span
+            class="ab-icon">⚡</span> Quadratic Eq.</button>
+        <button class="agent-btn" onclick="setQuickPrompt('I\'m feeling very stressed about my exam tomorrow')"><span
+            class="ab-icon">⚡</span> Feeling Stressed</button>
+      </div>
+      <div class="chat-main">
+        <div class="chat-header">
+          <div class="chat-header-info">
+            <div class="chat-header-icon" id="agent-icon" style="background:rgba(124,106,247,0.12)">👩‍🏫</div>
+            <div>
+              <h2 id="agent-name">Teacher AI</h2>
+              <p id="agent-desc">Explains concepts clearly</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div class="online-dot"></div>
+            <span style="font-size:0.78rem;color:var(--text2)">Online</span>
+          </div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="message">
+            <div class="msg-avatar">👩‍🏫</div>
+            <div>
+              <div class="msg-bubble">Hi! I'm your Teacher AI. I can explain any concept — in easy mode for beginners,
+                or detailed mode for deep understanding. What would you like to learn today?</div>
+              <div class="msg-time">Just now</div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <textarea class="chat-input" id="chat-input" placeholder="Ask anything…" rows="1"
+            onkeydown="handleChatKey(event)"></textarea>
+          <button class="send-btn" onclick="sendChatMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="page-quiz" class="page">
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <div class="section-label">Quiz Center</div>
+        <div class="section-title">Test Your Knowledge</div>
+      </div>
+
+      <div id="quiz-setup-view">
+        <div class="quiz-setup">
+          <h3>⚙️ Quiz Settings</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Subject</label>
+              <select class="form-select" id="quiz-subject">
+                <option>Mathematics</option>
+                <option>Physics</option>
+                <option>Chemistry</option>
+                <option>Biology</option>
+                <option>Computer Science</option>
+                <option>History</option>
+                <option>English</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Topic</label>
+              <select class="form-select" id="quiz-topic">
+                <option>General</option>
+                <option>Algebra</option>
+                <option>Calculus</option>
+                <option>Geometry</option>
+                <option>Trigonometry</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Difficulty</label>
+              <select class="form-select" id="quiz-diff">
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Questions</label>
+              <select class="form-select" id="quiz-count">
+                <option value="3">3 Questions</option>
+                <option value="5" selected>5 Questions</option>
+                <option value="10">10 Questions</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-primary" onclick="startQuiz()" id="start-quiz-btn">Generate Quiz with AI →</button>
+        </div>
+      </div>
+
+      <div id="quiz-active-view" style="display:none">
+        <div class="quiz-card">
+          <div class="quiz-progress">
+            <div style="display:flex;justify-content:space-between;font-size:0.82rem;color:var(--text2)">
+              <span id="q-counter">Question 1 of 5</span>
+              <span id="q-score-live">Score: 0</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar" id="q-progress" style="width:20%"></div>
+            </div>
+          </div>
+          <div class="question-text" id="question-text">Loading question...</div>
+          <div class="options" id="options-container"></div>
+          <div id="explanation-box"
+            style="display:none;margin-top:1rem;padding:12px;background:rgba(45,212,191,0.08);border:1px solid rgba(45,212,191,0.2);border-radius:10px;font-size:0.85rem;color:var(--text2);line-height:1.6;">
+          </div>
+          <button class="btn-outline" id="next-q-btn" style="margin-top:1.25rem;display:none"
+            onclick="nextQuestion()">Next Question →</button>
+        </div>
+      </div>
+
+      <div id="quiz-result-view" style="display:none">
+        <div class="quiz-result">
+          <div class="score-ring">
+            <div class="score-num" id="final-score">0/5</div>
+          </div>
+          <h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;margin-bottom:0.5rem" id="score-title">Good job!
+          </h2>
+          <p style="color:var(--text2);font-size:0.9rem;margin-bottom:1.5rem" id="score-msg">Keep practicing to improve.
+          </p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn-primary" onclick="restartQuiz()">Try Again</button>
+            <button class="btn-outline" onclick="showPage('analytics')">View Analytics</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div id="page-notes" class="page">
+    <div style="padding:1.5rem 2rem 0;max-width:1100px;margin:0 auto">
+      <div class="section-label">Notes AI</div>
+      <div class="section-title" style="margin-bottom:0.25rem">Smart Note Processor</div>
+      <p style="color:var(--text2);font-size:0.9rem;margin-bottom:1.5rem">Paste your notes or chapter text and let AI
+        summarize, create flashcards, or extract key points.</p>
+    </div>
+    <div class="notes-layout">
+      <div class="notes-input-panel">
+        <div class="panel-card">
+          <h3>📋 Input Text</h3>
+          <textarea class="big-textarea" id="notes-input"
+            placeholder="Paste your chapter, notes, or any text here…&#10;&#10;Example: 'Photosynthesis is the process by which plants use sunlight, water and carbon dioxide to produce oxygen and energy in the form of sugar...'"
+            style="min-height:200px;"></textarea>
+          <div class="notes-actions">
+            <button class="action-chip active" id="chip-summary" onclick="selectMode('summary')">📄 Summary</button>
+            <button class="action-chip" id="chip-flashcards" onclick="selectMode('flashcards')">🃏 Flashcards</button>
+            <button class="action-chip" id="chip-keypoints" onclick="selectMode('keypoints')">🎯 Key Points</button>
+            <button class="action-chip" id="chip-mindmap" onclick="selectMode('mindmap')">🗺️ Mind Map</button>
+          </div>
+          <button class="btn-primary" style="margin-top:1rem;width:100%" onclick="processNotes()"
+            id="process-btn">Process with AI →</button>
+        </div>
+      </div>
+      <div class="notes-output-panel">
+        <div class="panel-card" id="notes-output-card">
+          <h3>✨ AI Output</h3>
+          <div id="notes-output"
+            style="color:var(--text2);font-size:0.87rem;line-height:1.7;min-height:100px;display:flex;align-items:center;justify-content:center;">
+            <span style="color:var(--text3)">Your processed notes will appear here…</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANNER -->
+  <div id="page-planner" class="page">
+    <div class="planner-container">
+      <div style="margin-bottom:1.5rem">
+        <div class="section-label">Study Planner AI</div>
+        <div class="section-title">Your Study Schedule</div>
+      </div>
+      <div class="planner-grid">
+        <div class="countdown-card">
+          <div class="countdown-days" id="countdown-days">12</div>
+          <div class="countdown-label">days until</div>
+          <div class="exam-name">Final Board Exams</div>
+          <div style="margin-top:1rem;font-size:0.82rem;color:var(--text2)">📅 May 21, 2026</div>
+        </div>
+        <div class="planner-card">
+          <h3>🔥 Study Streak</h3>
+          <div style="font-size:0.85rem;color:var(--text2);margin-bottom:0.75rem">5-day streak! Keep it up 🎉</div>
+          <div class="streak-display">
+            <div class="streak-day done">M</div>
+            <div class="streak-day done">T</div>
+            <div class="streak-day done">W</div>
+            <div class="streak-day done">T</div>
+            <div class="streak-day done">F</div>
+            <div class="streak-day today">S</div>
+            <div class="streak-day miss">S</div>
+          </div>
+        </div>
+        <div class="planner-card planner-full">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+            <h3>📋 Today's Schedule</h3>
+            <button class="action-chip" onclick="generatePlan()">✨ Regenerate with AI</button>
+          </div>
+          <div id="schedule-list">
+            <div class="schedule-item">
+              <span class="time">6:00 AM</span>
+              <div class="subj-dot" style="background:#a89cff"></div>
+              <span class="subject">Mathematics — Calculus (Derivatives)</span>
+              <span class="duration">90 min</span>
+            </div>
+            <div class="schedule-item">
+              <span class="time">8:00 AM</span>
+              <div class="subj-dot" style="background:#2dd4bf"></div>
+              <span class="subject">Physics — Laws of Motion</span>
+              <span class="duration">60 min</span>
+            </div>
+            <div class="schedule-item">
+              <span class="time">10:00 AM</span>
+              <div class="subj-dot" style="background:#fbbf24"></div>
+              <span class="subject">Chemistry — Organic Chemistry</span>
+              <span class="duration">75 min</span>
+            </div>
+            <div class="schedule-item">
+              <span class="time">12:30 PM</span>
+              <div class="subj-dot" style="background:#4ade80"></div>
+              <span class="subject">Break + Lunch</span>
+              <span class="duration">60 min</span>
+            </div>
+            <div class="schedule-item">
+              <span class="time">2:00 PM</span>
+              <div class="subj-dot" style="background:#f87171"></div>
+              <span class="subject">Biology — Cell Division ⚠️ Weak area</span>
+              <span class="duration">90 min</span>
+            </div>
+            <div class="schedule-item">
+              <span class="time">4:30 PM</span>
+              <div class="subj-dot" style="background:#60a5fa"></div>
+              <span class="subject">Revision — Quick Flashcards</span>
+              <span class="duration">45 min</span>
+            </div>
+          </div>
+        </div>
+        <div class="planner-card">
+          <h3>🎯 Daily Goals</h3>
+          <div id="goals-list">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem">
+              <input type="checkbox" checked style="accent-color:var(--accent)"> <span
+                style="color:var(--text2);text-decoration:line-through">Complete derivatives chapter</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem">
+              <input type="checkbox" checked style="accent-color:var(--accent)"> <span
+                style="color:var(--text2);text-decoration:line-through">20 quiz questions</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem">
+              <input type="checkbox" style="accent-color:var(--accent)"> <span style="color:var(--text)">Review Biology
+                flashcards</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
+              <input type="checkbox" style="accent-color:var(--accent)"> <span style="color:var(--text)">Physics problem
+                set (10 problems)</span>
+            </div>
+          </div>
+        </div>
+        <div class="planner-card">
+          <h3>📌 Subject Priority</h3>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
+              <span
+                style="background:rgba(248,113,113,0.15);color:#f87171;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600">HIGH</span>
+              <span style="color:var(--text)">Calculus</span>
+              <span style="color:var(--text3);font-size:0.78rem;margin-left:auto">37% accuracy</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
+              <span
+                style="background:rgba(248,113,113,0.15);color:#f87171;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600">HIGH</span>
+              <span style="color:var(--text)">Organic Chemistry</span>
+              <span style="color:var(--text3);font-size:0.78rem;margin-left:auto">44% accuracy</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
+              <span
+                style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600">MED</span>
+              <span style="color:var(--text)">Cell Division</span>
+              <span style="color:var(--text3);font-size:0.78rem;margin-left:auto">58% accuracy</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
+              <span
+                style="background:rgba(74,222,128,0.1);color:#4ade80;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600">LOW</span>
+              <span style="color:var(--text)">Newton's Laws</span>
+              <span style="color:var(--text3);font-size:0.78rem;margin-left:auto">82% accuracy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div id="page-analytics" class="page">
+    <div class="analytics-container">
+      <div style="margin-bottom:1.5rem">
+        <div class="section-label">Performance Analytics</div>
+        <div class="section-title">Your Study Dashboard</div>
+      </div>
+      <div class="analytics-grid">
+        <div class="stat-card">
+          <div class="stat-label">Study Hours (This Week)</div>
+          <div class="stat-value">24.5h</div>
+          <div class="stat-change">↑ 18% vs last week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Quiz Accuracy</div>
+          <div class="stat-value">68%</div>
+          <div class="stat-change">↑ 5% improvement</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Topics Covered</div>
+          <div class="stat-value">34</div>
+          <div class="stat-change">↑ 8 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Study Streak</div>
+          <div class="stat-value">5 🔥</div>
+          <div class="stat-change">Personal best!</div>
+        </div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3>📅 Daily Study Hours (This Week)</h3>
+          <div class="bar-chart" id="hours-chart"></div>
+        </div>
+        <div class="chart-card">
+          <h3>📚 Subject Performance</h3>
+          <div id="subject-chart"></div>
+        </div>
+      </div>
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3>⚠️ Weak Topics (Need Attention)</h3>
+          <div class="weak-topics">
+            <span class="topic-chip">Calculus</span>
+            <span class="topic-chip">Organic Chemistry</span>
+            <span class="topic-chip">Cell Division</span>
+            <span class="topic-chip">Thermodynamics</span>
+            <span class="topic-chip">Electrochemistry</span>
+          </div>
+          <div
+            style="margin-top:1rem;padding:10px;background:rgba(248,113,113,0.08);border-radius:8px;font-size:0.82rem;color:var(--text2);line-height:1.6;">
+            🤖 Analytics AI says: <em>"Your calculus score dropped 12% this week. Planner AI has added 2 extra hours of
+              calculus practice to your schedule."</em>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h3>✅ Strong Topics (Keep Revising)</h3>
+          <div>
+            <span class="strong-chip">Newton's Laws</span>
+            <span class="strong-chip">Algebra</span>
+            <span class="strong-chip">Cell Biology</span>
+            <span class="strong-chip">Optics</span>
+            <span class="strong-chip">Statistics</span>
+          </div>
+          <div
+            style="margin-top:1rem;padding:10px;background:rgba(74,222,128,0.08);border-radius:8px;font-size:0.82rem;color:var(--text2);line-height:1.6;">
+            🤖 Analytics AI says: <em>"You're excelling in Physics mechanics! Estimated 85%+ marks in this section based
+              on your quiz performance."</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOTIVATION -->
+  <div id="page-motivation" class="page">
+    <div class="motivation-container">
+      <div style="margin-bottom:1.5rem">
+        <div class="section-label">Motivation AI</div>
+        <div class="section-title">Stay Focused</div>
+      </div>
+      <div class="motivation-hero">
+        <div class="motivation-emoji" id="mot-emoji">💪</div>
+        <div class="motivation-quote" id="mot-quote">"The secret of getting ahead is getting started. You've already
+          done that — now keep going!"</div>
+        <div class="motivation-author" id="mot-author">— StudyMind AI</div>
+        <button class="btn-outline" style="margin-top:1rem;font-size:0.82rem" onclick="newQuote()">New Quote ↻</button>
+      </div>
+      <div class="timer-card">
+        <div style="font-size:0.82rem;color:var(--text2);margin-bottom:0.5rem">🍅 Focus Timer (Pomodoro)</div>
+        <div class="timer-display" id="timer-display">25:00</div>
+        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px" id="timer-label">Focus session</div>
+        <div class="timer-btns">
+          <button class="timer-btn active" onclick="setTimer(25*60,'Focus session',this)">25 min</button>
+          <button class="timer-btn" onclick="setTimer(5*60,'Short break',this)">5 min break</button>
+          <button class="timer-btn" onclick="setTimer(15*60,'Long break',this)">15 min break</button>
+        </div>
+        <div class="timer-btns" style="margin-top:8px">
+          <button class="timer-btn active" id="start-stop-btn" onclick="toggleTimer()">▶ Start</button>
+          <button class="timer-btn" onclick="resetTimer()">↺ Reset</button>
+        </div>
+      </div>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <div class="tip-icon">🧠</div>
+          <div class="tip-title">Spaced Repetition</div>
+          <div class="tip-text">Review material at increasing intervals. Study today, review in 2 days, then 7 days,
+            then 21 days.</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">😴</div>
+          <div class="tip-title">Sleep to Learn</div>
+          <div class="tip-text">Your brain consolidates memories during sleep. 7-8 hours of sleep is more valuable than
+            cramming at night.</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">✍️</div>
+          <div class="tip-title">Active Recall</div>
+          <div class="tip-text">Don't just re-read. Close your notes and try to recall what you learned — it strengthens
+            memory 3x more.</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-icon">🏃</div>
+          <div class="tip-title">Exercise Boosts Memory</div>
+          <div class="tip-text">Just 20 minutes of walking before study sessions improves focus and retention
+            significantly.</div>
+        </div>
+      </div>
+    </div>
+  <!-- PROFILE -->
+  <div id="page-profile" class="page">
+    <div class="profile-container">
+      
+      <!-- HEADER -->
+      <div class="profile-header">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar" id="prof-avatar">👤</div>
+          <div class="profile-level-badge">Lvl 12</div>
+        </div>
+        <div class="profile-info">
+          <h1 id="prof-name">Student Name</h1>
+          <p id="prof-email">student@example.com</p>
+        </div>
+        <div class="profile-actions">
+          <button class="btn-outline" style="padding: 8px 16px; font-size: 0.85rem;" onclick="downloadReport()">📥 Download</button>
+          <button class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="printReport()">🖨️ Print Report</button>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="profile-stats-grid">
+        <div class="p-stat-card">
+          <div class="p-stat-icon" style="background: rgba(244,114,182,0.1); color: #f472b6;">🔥</div>
+          <div class="p-stat-content">
+            <h4>Study Streak</h4>
+            <div class="p-val" id="prof-streak">5 Days</div>
+          </div>
+        </div>
+        <div class="p-stat-card">
+          <div class="p-stat-icon" style="background: rgba(45,212,191,0.1); color: #2dd4bf;">📝</div>
+          <div class="p-stat-content">
+            <h4>Quizzes Done</h4>
+            <div class="p-val" id="prof-quizzes">24</div>
+          </div>
+        </div>
+        <div class="p-stat-card">
+          <div class="p-stat-icon" style="background: rgba(251,191,36,0.1); color: #fbbf24;">🎯</div>
+          <div class="p-stat-content">
+            <h4>Avg Score</h4>
+            <div class="p-val" id="prof-score">82%</div>
+          </div>
+        </div>
+        <div class="p-stat-card">
+          <div class="p-stat-icon" style="background: rgba(124,106,247,0.1); color: #a89cff;">⏱️</div>
+          <div class="p-stat-content">
+            <h4>Study Hours</h4>
+            <div class="p-val" id="prof-hours">124h</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAYOUT -->
+      <div class="profile-layout">
+        
+        <!-- Main Column -->
+        <div class="p-main">
+          
+          <div class="p-section">
+            <div class="p-section-header">
+              <div class="p-section-title">📊 Study Analytics</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+              <div>
+                <h4 style="font-size: 0.85rem; color: var(--text3); margin-bottom: 1rem; text-transform: uppercase;">Top Subjects</h4>
+                <div class="mini-prog">
+                  <div class="mini-prog-head"><span>Physics (Strongest)</span><span>92%</span></div>
+                  <div class="mini-prog-bar"><div class="mini-prog-fill" style="width: 92%; background: var(--green);"></div></div>
+                </div>
+                <div class="mini-prog">
+                  <div class="mini-prog-head"><span>Biology</span><span>85%</span></div>
+                  <div class="mini-prog-bar"><div class="mini-prog-fill" style="width: 85%; background: var(--accent);"></div></div>
+                </div>
+              </div>
+              <div>
+                <h4 style="font-size: 0.85rem; color: var(--text3); margin-bottom: 1rem; text-transform: uppercase;">Needs Focus</h4>
+                <div class="mini-prog">
+                  <div class="mini-prog-head"><span>Calculus (Weakest)</span><span>45%</span></div>
+                  <div class="mini-prog-bar"><div class="mini-prog-fill" style="width: 45%; background: var(--coral);"></div></div>
+                </div>
+                <div class="mini-prog">
+                  <div class="mini-prog-head"><span>Organic Chem</span><span>60%</span></div>
+                  <div class="mini-prog-bar"><div class="mini-prog-fill" style="width: 60%; background: var(--amber);"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-section">
+            <div class="p-section-header">
+              <div class="p-section-title">📝 Recent Quizzes</div>
+              <button class="action-chip" onclick="showPage('quiz')">Take New Quiz</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg3); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border);">
+                <div>
+                  <div style="font-weight: 500; font-size: 0.9rem;">Physics: Newton's Laws</div>
+                  <div style="font-size: 0.75rem; color: var(--text3); margin-top: 4px;">Yesterday • Hard</div>
+                </div>
+                <div style="color: var(--green); font-weight: 700;">4/5 (80%)</div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg3); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border);">
+                <div>
+                  <div style="font-weight: 500; font-size: 0.9rem;">Math: Calculus Limits</div>
+                  <div style="font-size: 0.75rem; color: var(--text3); margin-top: 4px;">2 days ago • Medium</div>
+                </div>
+                <div style="color: var(--coral); font-weight: 700;">2/5 (40%)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-section">
+            <div class="p-section-header">
+              <div class="p-section-title">📚 Generated Notes</div>
+              <button class="action-chip" onclick="showPage('notes')">Generate More</button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+              <div style="background: var(--bg3); padding: 1rem; border-radius: 10px; border: 1px solid var(--border);">
+                <div style="font-size: 1.2rem; margin-bottom: 8px;">🃏</div>
+                <div style="font-weight: 500; font-size: 0.85rem;">Cell Biology Flashcards</div>
+                <div style="font-size: 0.75rem; color: var(--text3); margin-top: 6px;">15 cards • Generated today</div>
+              </div>
+              <div style="background: var(--bg3); padding: 1rem; border-radius: 10px; border: 1px solid var(--border);">
+                <div style="font-size: 1.2rem; margin-bottom: 8px;">📄</div>
+                <div style="font-weight: 500; font-size: 0.85rem;">Photosynthesis Summary</div>
+                <div style="font-size: 0.75rem; color: var(--text3); margin-top: 6px;">Summary • 3 days ago</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar Column -->
+        <div class="p-sidebar">
+          
+          <div class="ai-recs-card" style="margin-bottom: 1.5rem;">
+            <div class="p-section-title" style="margin-bottom: 1rem;">✨ AI Recommendations</div>
+            <div class="rec-item">
+              <div class="rec-icon">🧠</div>
+              <div class="rec-text">
+                <strong>Review Calculus Limits</strong>
+                Your last quiz score was 40%. I suggest allocating 30 mins to review this topic today.
+              </div>
+            </div>
+            <div class="rec-item">
+              <div class="rec-icon">🎯</div>
+              <div class="rec-text">
+                <strong>Try a Mock Test</strong>
+                You've consistently scored above 80% in Physics. You are ready for a full chapter test!
+              </div>
+            </div>
+          </div>
+
+          <div class="p-section">
+            <div class="p-section-title" style="margin-bottom: 1.25rem;">⚡ AI Activity</div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="tl-dot">🤖</div>
+                <div class="tl-content">
+                  <div class="tl-time">Today, 2:30 PM</div>
+                  <div class="tl-title">Doubt Solver answered 2 math queries</div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="tl-dot">📅</div>
+                <div class="tl-content">
+                  <div class="tl-time">Yesterday, 9:00 AM</div>
+                  <div class="tl-title">Planner adjusted schedule for weak subjects</div>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="tl-dot">🌟</div>
+                <div class="tl-content">
+                  <div class="tl-time">3 days ago</div>
+                  <div class="tl-title">Motivation AI celebrated your 5-day streak</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="toast">✓ Done!</div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

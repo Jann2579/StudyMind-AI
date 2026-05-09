@@ -1,0 +1,60 @@
+type User @table {
+  displayName: String!
+  email: String!
+  createdAt: Timestamp!
+  photoUrl: String
+  lastLogin: Timestamp
+}
+
+type Subject @table {
+  user: User!
+  name: String!
+  createdAt: Timestamp!
+  description: String
+}
+
+type Note @table {
+  user: User!
+  subject: Subject
+  title: String!
+  content: String!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  tags: [String]
+}
+
+type Question @table {
+  user: User!
+  note: Note
+  query: String!
+  answer: String!
+  createdAt: Timestamp!
+  isAIAnswer: Boolean
+}
+
+type Quiz @table {
+  user: User!
+  subject: Subject
+  name: String!
+  createdAt: Timestamp!
+  generatedFromNotes: Boolean
+  topic: String
+}
+
+type QuizQuestion @table {
+  quiz: Quiz!
+  questionText: String!
+  correctAnswer: String!
+  createdAt: Timestamp!
+  options: [String]
+  explanation: String
+}
+
+type QuizAttempt @table {
+  user: User!
+  quizQuestion: QuizQuestion!
+  submittedAnswer: String!
+  isCorrect: Boolean!
+  createdAt: Timestamp!
+  timeTakenSeconds: Int
+}

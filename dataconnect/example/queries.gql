@@ -1,0 +1,61 @@
+query getUserNotes @auth(level: USER, insecureReason: "Retrieves notes belonging to the authenticated user.") {
+  notes(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    title
+    content
+    createdAt
+    updatedAt
+    tags
+    subject {
+      id
+      name
+    }
+  }
+}
+
+mutation createQuiz($name: String!, $subjectId: UUID, $topic: String) @auth(level: USER, insecureReason: "Allows authenticated users to create quizzes.") {
+  quiz_insert(data: {
+    name: $name,
+    userId_expr: "auth.uid",
+    subjectId: $subjectId,
+    topic: $topic,
+    createdAt_expr: "request.time",
+    generatedFromNotes: false
+  })
+}
+
+query getQuizDetails($quizId: UUID!) @auth(level: USER, insecureReason: "Retrieves details for a specific quiz, accessible to all logged-in users.") {
+  quiz(id: $quizId) {
+    id
+    name
+    createdAt
+    generatedFromNotes
+    topic
+    subject {
+      id
+      name
+    }
+    user {
+      id
+      displayName
+    }
+    quizQuestions_on_quiz {
+      id
+      questionText
+      options
+      correctAnswer
+      explanation
+    }
+  }
+}
+
+mutation submitQuizAttempt($quizQuestionId: UUID!, $submittedAnswer: String!, $isCorrect: Boolean!, $timeTakenSeconds: Int) @auth(level: USER, insecureReason: "Allows authenticated users to submit quiz attempts.") {
+  quizAttempt_insert(data: {
+    quizQuestionId: $quizQuestionId,
+    userId_expr: "auth.uid",
+    submittedAnswer: $submittedAnswer,
+    isCorrect: $isCorrect,
+    createdAt_expr: "request.time",
+    timeTakenSeconds: $timeTakenSeconds
+  })
+}
