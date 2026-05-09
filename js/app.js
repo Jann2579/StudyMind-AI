@@ -352,6 +352,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     // Your web app's Firebase configuration
     const firebaseConfig = {
@@ -369,27 +370,65 @@
     const analytics = getAnalytics(app);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
+    const db = getFirestore(app);
 
     // Setup Google Login
     const loginBtn = document.getElementById('google-login-btn');
     if (loginBtn) {
       loginBtn.addEventListener('click', () => {
         signInWithPopup(auth, provider)
-          .then((result) => {
+          .then(async (result) => {
             const user = result.user;
             showToast(`Welcome, ${user.displayName}!`);
             
-            // Update Profile UI
-            const nameEl = document.getElementById('prof-name');
-            const emailEl = document.getElementById('prof-email');
-            const avatarEl = document.getElementById('prof-avatar');
-            if (nameEl) nameEl.textContent = user.displayName || "Student Name";
-            if (emailEl) emailEl.textContent = user.email || "student@example.com";
-            if (avatarEl && user.photoURL) {
-              avatarEl.innerHTML = `<img src="${user.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-            }
+            // Check if user profile exists in Firestore
+            const userRef = doc(db, 'users', user.uid);
+            try {
+              const docSnap = await getDoc(userRef);
+              let userData;
+              
+              if (!docSnap.exists()) {
+                // Create new student profile
+                userData = {
+                  name: user.displayName,
+                  email: user.email,
+                  studyStreak: 1, // Start with 1 day streak
+                  quizzesDone: 0,
+                  avgScore: 0,
+                  studyHours: 0,
+                  createdAt: new Date().toISOString()
+                };
+                await setDoc(userRef, userData);
+                console.log("Created new Firestore student profile!");
+              } else {
+                userData = docSnap.data();
+                console.log("Loaded existing student profile from Firestore");
+              }
+              
+              // Update Profile UI with Firestore Data
+              const nameEl = document.getElementById('prof-name');
+              const emailEl = document.getElementById('prof-email');
+              const avatarEl = document.getElementById('prof-avatar');
+              const streakEl = document.getElementById('prof-streak');
+              const quizzesEl = document.getElementById('prof-quizzes');
+              const scoreEl = document.getElementById('prof-score');
+              const hoursEl = document.getElementById('prof-hours');
+              
+              if (nameEl) nameEl.textContent = userData.name || "Student Name";
+              if (emailEl) emailEl.textContent = userData.email || "student@example.com";
+              if (avatarEl && user.photoURL) {
+                avatarEl.innerHTML = `<img src="${user.photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+              }
+              if (streakEl) streakEl.textContent = `${userData.studyStreak || 0} Days`;
+              if (quizzesEl) quizzesEl.textContent = userData.quizzesDone || 0;
+              if (scoreEl) scoreEl.textContent = `${userData.avgScore || 0}%`;
+              if (hoursEl) hoursEl.textContent = `${userData.studyHours || 0}h`;
 
-            showPage('profile');
+              showPage('profile');
+            } catch (err) {
+              console.error("Firestore error: ", err);
+              showToast("Error loading profile data");
+            }
           }).catch((error) => {
             console.error(error);
             showToast(`Login failed: ${error.message}`);
