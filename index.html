@@ -10,6 +10,45 @@
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    /* Markdown Styles */
+    .msg-bubble h1, .msg-bubble h2, .msg-bubble h3, 
+    .summary-card h1, .summary-card h2, .summary-card h3 {
+      font-family: 'Syne', sans-serif;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+    .msg-bubble h1, .summary-card h1 { font-size: 1.3rem; }
+    .msg-bubble h2, .summary-card h2 { font-size: 1.1rem; }
+    .msg-bubble h3, .summary-card h3 { font-size: 1rem; }
+    .msg-bubble ul, .msg-bubble ol,
+    .summary-card ul, .summary-card ol {
+      margin-left: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .msg-bubble li, .summary-card li {
+      margin-bottom: 0.25rem;
+    }
+    .msg-bubble p, .summary-card p {
+      margin-bottom: 0.75rem;
+    }
+    .msg-bubble code, .summary-card code {
+      background: rgba(255,255,255,0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    .msg-bubble pre, .summary-card pre {
+      background: rgba(0,0,0,0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -28,8 +67,11 @@
       <li><a href="#" onclick="showPage('analytics')">Analytics</a></li>
       <li><a href="#" onclick="showPage('motivation')">Motivation</a></li>
       <li>
-        <a href="#" onclick="showPage('profile')" class="nav-cta" style="display: flex; align-items: center; gap: 6px; padding: 4px 12px !important; border-radius: 100px;">
-          <div style="width: 24px; height: 24px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">👤</div>
+        <a href="#" onclick="showPage('profile')" class="nav-cta"
+          style="display: flex; align-items: center; gap: 6px; padding: 4px 12px !important; border-radius: 100px;">
+          <div
+            style="width: 24px; height: 24px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">
+            👤</div>
           Profile
         </a>
       </li>
@@ -51,90 +93,166 @@
       </div>
     </div>
 
-    <div class="agents-section">
-      <div class="section-label">Meet the Agents</div>
-      <div class="section-title">Your AI Study Team</div>
-      <div class="section-sub">Each agent is specialized — they share data to help you learn smarter.</div>
-      <div class="agents-grid">
-        <div class="agent-card" style="--agent-color:#a89cff;--agent-bg:rgba(124,106,247,0.1)"
-          onclick="openAgent('teacher')">
-          <div class="agent-icon">👩‍🏫</div>
-          <h3>Teacher AI</h3>
-          <p>Explains any concept in easy, exam, or detailed mode. Adapts to your level.</p>
-          <span class="agent-tag">Ask anything</span>
+    <div id="home-logged-out-content">
+      <div class="agents-section">
+        <div class="section-label">Meet the Agents</div>
+        <div class="section-title">Your AI Study Team</div>
+        <div class="section-sub">Each agent is specialized — they share data to help you learn smarter.</div>
+        <div class="agents-grid">
+          <div class="agent-card" style="--agent-color:#a89cff;--agent-bg:rgba(124,106,247,0.1)"
+            onclick="openAgent('teacher')">
+            <div class="agent-icon">👩‍🏫</div>
+            <h3>Teacher AI</h3>
+            <p>Explains any concept in easy, exam, or detailed mode. Adapts to your level.</p>
+            <span class="agent-tag">Ask anything</span>
+          </div>
+          <div class="agent-card" style="--agent-color:#fbbf24;--agent-bg:rgba(251,191,36,0.1)"
+            onclick="openAgent('quiz')">
+            <div class="agent-icon">📝</div>
+            <h3>Quiz AI</h3>
+            <p>Auto-generates MCQs, fill-in-blanks, and viva questions by difficulty.</p>
+            <span class="agent-tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Test yourself</span>
+          </div>
+          <div class="agent-card" style="--agent-color:#2dd4bf;--agent-bg:rgba(45,212,191,0.1)"
+            onclick="openAgent('notes')">
+            <div class="agent-icon">📚</div>
+            <h3>Notes AI</h3>
+            <p>Summarizes chapters, creates flashcards, extracts key points from your text.</p>
+            <span class="agent-tag" style="background:rgba(45,212,191,0.1);color:#2dd4bf">Summarize</span>
+          </div>
+          <div class="agent-card" style="--agent-color:#60a5fa;--agent-bg:rgba(96,165,250,0.1)"
+            onclick="showPage('planner')">
+            <div class="agent-icon">📅</div>
+            <h3>Planner AI</h3>
+            <p>Builds personalized timetables with exam countdowns and daily goals.</p>
+            <span class="agent-tag" style="background:rgba(96,165,250,0.1);color:#60a5fa">Plan ahead</span>
+          </div>
+          <div class="agent-card" style="--agent-color:#f472b6;--agent-bg:rgba(244,114,182,0.1)"
+            onclick="showPage('motivation')">
+            <div class="agent-icon">🌟</div>
+            <h3>Motivation AI</h3>
+            <p>Detects burnout, tracks streaks, and keeps you going with encouragement.</p>
+            <span class="agent-tag" style="background:rgba(244,114,182,0.1);color:#f472b6">Stay focused</span>
+          </div>
+          <div class="agent-card" style="--agent-color:#4ade80;--agent-bg:rgba(74,222,128,0.1)"
+            onclick="showPage('analytics')">
+            <div class="agent-icon">📊</div>
+            <h3>Analytics AI</h3>
+            <p>Tracks progress, identifies weak spots, and predicts your exam readiness.</p>
+            <span class="agent-tag" style="background:rgba(74,222,128,0.1);color:#4ade80">See progress</span>
+          </div>
+          <div class="agent-card" style="--agent-color:#f87171;--agent-bg:rgba(248,113,113,0.1)"
+            onclick="openAgent('doubt')">
+            <div class="agent-icon">🤖</div>
+            <h3>Doubt Solver</h3>
+            <p>Subject-specific solver with step-by-step solutions for complex problems.</p>
+            <span class="agent-tag" style="background:rgba(248,113,113,0.1);color:#f87171">Solve doubts</span>
+          </div>
         </div>
-        <div class="agent-card" style="--agent-color:#fbbf24;--agent-bg:rgba(251,191,36,0.1)"
-          onclick="openAgent('quiz')">
-          <div class="agent-icon">📝</div>
-          <h3>Quiz AI</h3>
-          <p>Auto-generates MCQs, fill-in-blanks, and viva questions by difficulty.</p>
-          <span class="agent-tag" style="background:rgba(251,191,36,0.1);color:#fbbf24">Test yourself</span>
-        </div>
-        <div class="agent-card" style="--agent-color:#2dd4bf;--agent-bg:rgba(45,212,191,0.1)"
-          onclick="openAgent('notes')">
-          <div class="agent-icon">📚</div>
-          <h3>Notes AI</h3>
-          <p>Summarizes chapters, creates flashcards, extracts key points from your text.</p>
-          <span class="agent-tag" style="background:rgba(45,212,191,0.1);color:#2dd4bf">Summarize</span>
-        </div>
-        <div class="agent-card" style="--agent-color:#60a5fa;--agent-bg:rgba(96,165,250,0.1)"
-          onclick="showPage('planner')">
-          <div class="agent-icon">📅</div>
-          <h3>Planner AI</h3>
-          <p>Builds personalized timetables with exam countdowns and daily goals.</p>
-          <span class="agent-tag" style="background:rgba(96,165,250,0.1);color:#60a5fa">Plan ahead</span>
-        </div>
-        <div class="agent-card" style="--agent-color:#f472b6;--agent-bg:rgba(244,114,182,0.1)"
-          onclick="showPage('motivation')">
-          <div class="agent-icon">🌟</div>
-          <h3>Motivation AI</h3>
-          <p>Detects burnout, tracks streaks, and keeps you going with encouragement.</p>
-          <span class="agent-tag" style="background:rgba(244,114,182,0.1);color:#f472b6">Stay focused</span>
-        </div>
-        <div class="agent-card" style="--agent-color:#4ade80;--agent-bg:rgba(74,222,128,0.1)"
-          onclick="showPage('analytics')">
-          <div class="agent-icon">📊</div>
-          <h3>Analytics AI</h3>
-          <p>Tracks progress, identifies weak spots, and predicts your exam readiness.</p>
-          <span class="agent-tag" style="background:rgba(74,222,128,0.1);color:#4ade80">See progress</span>
-        </div>
-        <div class="agent-card" style="--agent-color:#f87171;--agent-bg:rgba(248,113,113,0.1)"
-          onclick="openAgent('doubt')">
-          <div class="agent-icon">🤖</div>
-          <h3>Doubt Solver</h3>
-          <p>Subject-specific solver with step-by-step solutions for complex problems.</p>
-          <span class="agent-tag" style="background:rgba(248,113,113,0.1);color:#f87171">Solve doubts</span>
+      </div>
+
+      <!-- Agent Collaboration Banner -->
+      <div style="max-width:1100px;margin:0 auto 4rem;padding:0 2rem;">
+        <div
+          style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
+          <div style="flex:1;min-width:240px;">
+            <div class="section-label">Multi-Agent Intelligence</div>
+            <h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin:0.5rem 0;">Agents talk to
+              each other</h2>
+            <p style="color:var(--text2);font-size:0.9rem;line-height:1.7;">When Quiz AI detects you're weak in
+              calculus,
+              it tells Planner AI — which automatically adds more practice time. All agents share context to build your
+              perfect study plan.</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <div
+              style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#fbbf24;max-width:160px;">
+              📝 Quiz AI: <em style="color:var(--text2);">"Student scored 40% in Calculus"</em>
+            </div>
+            <div style="color:var(--text3);display:flex;align-items:center;font-size:1.2rem;">→</div>
+            <div
+              style="background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#60a5fa;max-width:160px;">
+              📅 Planner AI: <em style="color:var(--text2);">"Adding 2h calculus daily"</em>
+            </div>
+            <div style="color:var(--text3);display:flex;align-items:center;font-size:1.2rem;">→</div>
+            <div
+              style="background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#f472b6;max-width:160px;">
+              🌟 Motivation AI: <em style="color:var(--text2);">"You've got this! 5-day streak!"</em>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Agent Collaboration Banner -->
-    <div style="max-width:1100px;margin:0 auto 4rem;padding:0 2rem;">
-      <div
-        style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:2rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
-        <div style="flex:1;min-width:240px;">
-          <div class="section-label">Multi-Agent Intelligence</div>
-          <h2 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin:0.5rem 0;">Agents talk to
-            each other</h2>
-          <p style="color:var(--text2);font-size:0.9rem;line-height:1.7;">When Quiz AI detects you're weak in calculus,
-            it tells Planner AI — which automatically adds more practice time. All agents share context to build your
-            perfect study plan.</p>
+    <!-- NEW LOGGED-IN DASHBOARD -->
+    <div id="home-logged-in-content" style="display: none; padding: 2rem; max-width: 1100px; margin: 0 auto;">
+      <div class="section-label">Overview</div>
+      <div class="section-title">Your Progress</div>
+      <div class="profile-stats-grid">
+        <div class="p-stat-card">
+          <div class="p-stat-icon" style="background: rgba(244,114,182,0.1); color: #f472b6;">🔥</div>
+          <div class="p-stat-content">
+            <h4>Study Streak</h4>
+            <div class="p-val" id="home-streak">0 Days</div>
+            <div class="p-stat-trend" id="home-streak-trend" style="color:var(--text3);font-size:0.8rem;">No trend data
+              yet</div>
+          </div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <div
-            style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#fbbf24;max-width:160px;">
-            📝 Quiz AI: <em style="color:var(--text2);">"Student scored 40% in Calculus"</em>
+        <div class="p-stat-card">
+          <div class="p-stat-icon" style="background: rgba(45,212,191,0.1); color: #2dd4bf;">📝</div>
+          <div class="p-stat-content">
+            <h4>Quizzes Done</h4>
+            <div class="p-val" id="home-quizzes">0</div>
+            <div class="p-stat-trend" id="home-quizzes-trend" style="color:var(--text3);font-size:0.8rem;">No trend data
+              yet</div>
           </div>
-          <div style="color:var(--text3);display:flex;align-items:center;font-size:1.2rem;">→</div>
-          <div
-            style="background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#60a5fa;max-width:160px;">
-            📅 Planner AI: <em style="color:var(--text2);">"Adding 2h calculus daily"</em>
+        </div>
+        <div class="p-stat-card">
+          <div class="p-stat-icon" style="background: rgba(251,191,36,0.1); color: #fbbf24;">🎯</div>
+          <div class="p-stat-content">
+            <h4>Avg Score</h4>
+            <div class="p-val" id="home-score">0%</div>
+            <div class="p-stat-trend" id="home-score-trend" style="color:var(--text3);font-size:0.8rem;">No trend data
+              yet</div>
           </div>
-          <div style="color:var(--text3);display:flex;align-items:center;font-size:1.2rem;">→</div>
-          <div
-            style="background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);border-radius:10px;padding:10px 14px;font-size:0.8rem;color:#f472b6;max-width:160px;">
-            🌟 Motivation AI: <em style="color:var(--text2);">"You've got this! 5-day streak!"</em>
+        </div>
+        <div class="p-stat-card">
+          <div class="p-stat-icon" style="background: rgba(124,106,247,0.1); color: #a89cff;">⏱️</div>
+          <div class="p-stat-content">
+            <h4>Study Hours</h4>
+            <div class="p-val" id="home-hours">0h</div>
+            <div class="p-stat-trend" id="home-hours-trend" style="color:var(--text3);font-size:0.8rem;">No trend data
+              yet</div>
           </div>
+        </div>
+      </div>
+
+      <div class="section-label" style="margin-top:3rem;">Quick Links</div>
+      <div class="section-title">Jump Back In</div>
+      <div class="agents-grid">
+        <div class="agent-card" style="--agent-color:#a89cff;--agent-bg:rgba(124,106,247,0.1)"
+          onclick="showPage('chat')">
+          <div class="agent-icon">💬</div>
+          <h3>AI Chat</h3>
+          <p>Resume your conversation with your personal AI tutors.</p>
+        </div>
+        <div class="agent-card" style="--agent-color:#fbbf24;--agent-bg:rgba(251,191,36,0.1)"
+          onclick="showPage('quiz')">
+          <div class="agent-icon">📝</div>
+          <h3>Take a Quiz</h3>
+          <p>Test your knowledge with an AI-generated quiz.</p>
+        </div>
+        <div class="agent-card" style="--agent-color:#2dd4bf;--agent-bg:rgba(45,212,191,0.1)"
+          onclick="showPage('notes')">
+          <div class="agent-icon">📚</div>
+          <h3>Generate Notes</h3>
+          <p>Summarize text or create flashcards instantly.</p>
+        </div>
+        <div class="agent-card" style="--agent-color:#60a5fa;--agent-bg:rgba(96,165,250,0.1)"
+          onclick="showPage('planner')">
+          <div class="agent-icon">📅</div>
+          <h3>Study Planner</h3>
+          <p>Review your schedule and daily study goals.</p>
         </div>
       </div>
     </div>
@@ -180,14 +298,6 @@
           </div>
         </div>
         <div class="chat-messages" id="chat-messages">
-          <div class="message">
-            <div class="msg-avatar">👩‍🏫</div>
-            <div>
-              <div class="msg-bubble">Hi! I'm your Teacher AI. I can explain any concept — in easy mode for beginners,
-                or detailed mode for deep understanding. What would you like to learn today?</div>
-              <div class="msg-time">Just now</div>
-            </div>
-          </div>
         </div>
         <div class="chat-input-area">
           <textarea class="chat-input" id="chat-input" placeholder="Ask anything…" rows="1"
@@ -338,22 +448,23 @@
       </div>
       <div class="planner-grid">
         <div class="countdown-card">
-          <div class="countdown-days" id="countdown-days">12</div>
+          <div class="countdown-days" id="countdown-days">--</div>
           <div class="countdown-label">days until</div>
-          <div class="exam-name">Final Board Exams</div>
-          <div style="margin-top:1rem;font-size:0.82rem;color:var(--text2)">📅 May 21, 2026</div>
+          <div class="exam-name">No exam set</div>
+          <div style="margin-top:1rem;font-size:0.82rem;color:var(--text2)">Set an exam date to start countdown</div>
         </div>
         <div class="planner-card">
           <h3>🔥 Study Streak</h3>
-          <div style="font-size:0.85rem;color:var(--text2);margin-bottom:0.75rem">5-day streak! Keep it up 🎉</div>
+          <div style="font-size:0.85rem;color:var(--text2);margin-bottom:0.75rem" id="planner-streak-label">No streak
+            yet — start studying!</div>
           <div class="streak-display">
-            <div class="streak-day done">M</div>
-            <div class="streak-day done">T</div>
-            <div class="streak-day done">W</div>
-            <div class="streak-day done">T</div>
-            <div class="streak-day done">F</div>
+            <div class="streak-day">M</div>
+            <div class="streak-day">T</div>
+            <div class="streak-day">W</div>
+            <div class="streak-day">T</div>
+            <div class="streak-day">F</div>
             <div class="streak-day today">S</div>
-            <div class="streak-day miss">S</div>
+            <div class="streak-day">S</div>
           </div>
         </div>
         <div class="planner-card planner-full">
@@ -362,92 +473,24 @@
             <button class="action-chip" onclick="generatePlan()">✨ Regenerate with AI</button>
           </div>
           <div id="schedule-list">
-            <div class="schedule-item">
-              <span class="time">6:00 AM</span>
-              <div class="subj-dot" style="background:#a89cff"></div>
-              <span class="subject">Mathematics — Calculus (Derivatives)</span>
-              <span class="duration">90 min</span>
-            </div>
-            <div class="schedule-item">
-              <span class="time">8:00 AM</span>
-              <div class="subj-dot" style="background:#2dd4bf"></div>
-              <span class="subject">Physics — Laws of Motion</span>
-              <span class="duration">60 min</span>
-            </div>
-            <div class="schedule-item">
-              <span class="time">10:00 AM</span>
-              <div class="subj-dot" style="background:#fbbf24"></div>
-              <span class="subject">Chemistry — Organic Chemistry</span>
-              <span class="duration">75 min</span>
-            </div>
-            <div class="schedule-item">
-              <span class="time">12:30 PM</span>
-              <div class="subj-dot" style="background:#4ade80"></div>
-              <span class="subject">Break + Lunch</span>
-              <span class="duration">60 min</span>
-            </div>
-            <div class="schedule-item">
-              <span class="time">2:00 PM</span>
-              <div class="subj-dot" style="background:#f87171"></div>
-              <span class="subject">Biology — Cell Division ⚠️ Weak area</span>
-              <span class="duration">90 min</span>
-            </div>
-            <div class="schedule-item">
-              <span class="time">4:30 PM</span>
-              <div class="subj-dot" style="background:#60a5fa"></div>
-              <span class="subject">Revision — Quick Flashcards</span>
-              <span class="duration">45 min</span>
+            <div
+              style="padding: 2rem; text-align: center; color: var(--text3); border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px; font-size: 0.9rem;">
+              Click ✨ Regenerate with AI to build your personalized schedule.
             </div>
           </div>
         </div>
         <div class="planner-card">
           <h3>🎯 Daily Goals</h3>
           <div id="goals-list">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem">
-              <input type="checkbox" checked style="accent-color:var(--accent)"> <span
-                style="color:var(--text2);text-decoration:line-through">Complete derivatives chapter</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem">
-              <input type="checkbox" checked style="accent-color:var(--accent)"> <span
-                style="color:var(--text2);text-decoration:line-through">20 quiz questions</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem">
-              <input type="checkbox" style="accent-color:var(--accent)"> <span style="color:var(--text)">Review Biology
-                flashcards</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
-              <input type="checkbox" style="accent-color:var(--accent)"> <span style="color:var(--text)">Physics problem
-                set (10 problems)</span>
+            <div style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem;">
+              No goals set for today.
             </div>
           </div>
         </div>
         <div class="planner-card">
           <h3>📌 Subject Priority</h3>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
-              <span
-                style="background:rgba(248,113,113,0.15);color:#f87171;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600">HIGH</span>
-              <span style="color:var(--text)">Calculus</span>
-              <span style="color:var(--text3);font-size:0.78rem;margin-left:auto">37% accuracy</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
-              <span
-                style="background:rgba(248,113,113,0.15);color:#f87171;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600">HIGH</span>
-              <span style="color:var(--text)">Organic Chemistry</span>
-              <span style="color:var(--text3);font-size:0.78rem;margin-left:auto">44% accuracy</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
-              <span
-                style="background:rgba(251,191,36,0.15);color:#fbbf24;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600">MED</span>
-              <span style="color:var(--text)">Cell Division</span>
-              <span style="color:var(--text3);font-size:0.78rem;margin-left:auto">58% accuracy</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem">
-              <span
-                style="background:rgba(74,222,128,0.1);color:#4ade80;padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600">LOW</span>
-              <span style="color:var(--text)">Newton's Laws</span>
-              <span style="color:var(--text3);font-size:0.78rem;margin-left:auto">82% accuracy</span>
-            </div>
+          <div style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem;">
+            Complete more quizzes to identify weak subjects.
           </div>
         </div>
       </div>
@@ -457,30 +500,35 @@
   <!-- ANALYTICS -->
   <div id="page-analytics" class="page">
     <div class="analytics-container">
-      <div style="margin-bottom:1.5rem">
-        <div class="section-label">Performance Analytics</div>
-        <div class="section-title">Your Study Dashboard</div>
+      <div style="margin-bottom:1.5rem; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <div class="section-label">Performance Analytics</div>
+          <div class="section-title">Your Study Dashboard</div>
+        </div>
+        <button id="refresh-ai-btn" class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="generateAIAnalytics()">
+          ✨ Refresh AI Insights
+        </button>
       </div>
       <div class="analytics-grid">
         <div class="stat-card">
           <div class="stat-label">Study Hours (This Week)</div>
-          <div class="stat-value">24.5h</div>
-          <div class="stat-change">↑ 18% vs last week</div>
+          <div class="stat-value" id="analytics-hours">--</div>
+          <div class="stat-change" id="analytics-hours-trend">Loading...</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Quiz Accuracy</div>
-          <div class="stat-value">68%</div>
-          <div class="stat-change">↑ 5% improvement</div>
+          <div class="stat-value" id="analytics-accuracy">--</div>
+          <div class="stat-change" id="analytics-accuracy-trend">Loading...</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Topics Covered</div>
-          <div class="stat-value">34</div>
-          <div class="stat-change">↑ 8 this week</div>
+          <div class="stat-value" id="analytics-topics">--</div>
+          <div class="stat-change" id="analytics-topics-trend">Loading...</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Study Streak</div>
-          <div class="stat-value">5 🔥</div>
-          <div class="stat-change">Personal best!</div>
+          <div class="stat-value" id="analytics-streak">--</div>
+          <div class="stat-change" id="analytics-streak-trend">Loading...</div>
         </div>
       </div>
       <div class="charts-row">
@@ -493,35 +541,44 @@
           <div id="subject-chart"></div>
         </div>
       </div>
-      <div class="charts-row">
-        <div class="chart-card">
-          <h3>⚠️ Weak Topics (Need Attention)</h3>
-          <div class="weak-topics">
-            <span class="topic-chip">Calculus</span>
-            <span class="topic-chip">Organic Chemistry</span>
-            <span class="topic-chip">Cell Division</span>
-            <span class="topic-chip">Thermodynamics</span>
-            <span class="topic-chip">Electrochemistry</span>
+      <div class="charts-row" style="grid-template-columns: 1fr;">
+        <div class="chart-card" style="padding: 2rem;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">📈 Key Areas Improved</h3>
+          <div id="analytics-improved-list" style="display: grid; gap: 1rem;">
+            <!-- Rendered by JS -->
           </div>
-          <div
-            style="margin-top:1rem;padding:10px;background:rgba(248,113,113,0.08);border-radius:8px;font-size:0.82rem;color:var(--text2);line-height:1.6;">
-            🤖 Analytics AI says: <em>"Your calculus score dropped 12% this week. Planner AI has added 2 extra hours of
-              calculus practice to your schedule."</em>
+
+          <div id="analytics-improved-msg-container"
+            style="margin-top:1.5rem;padding:15px;background:rgba(74,222,128,0.08);border-radius:8px;font-size:0.9rem;color:var(--text2);line-height:1.6; display: flex; gap: 12px; align-items: flex-start;">
+            <div style="font-size: 1.5rem;">🤖</div>
+            <div>
+              <strong style="color: var(--text);">Analytics AI says:</strong><br>
+              <em id="analytics-improved-msg">Loading insights...</em>
+            </div>
           </div>
         </div>
-        <div class="chart-card">
-          <h3>✅ Strong Topics (Keep Revising)</h3>
-          <div>
-            <span class="strong-chip">Newton's Laws</span>
-            <span class="strong-chip">Algebra</span>
-            <span class="strong-chip">Cell Biology</span>
-            <span class="strong-chip">Optics</span>
-            <span class="strong-chip">Statistics</span>
+
+        <div class="chart-card" style="padding: 2rem;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">⚠️ Key Areas Needed to Improve</h3>
+          <div id="analytics-weak-list" style="display: grid; gap: 1rem;">
+            <!-- Rendered by JS -->
           </div>
-          <div
-            style="margin-top:1rem;padding:10px;background:rgba(74,222,128,0.08);border-radius:8px;font-size:0.82rem;color:var(--text2);line-height:1.6;">
-            🤖 Analytics AI says: <em>"You're excelling in Physics mechanics! Estimated 85%+ marks in this section based
-              on your quiz performance."</em>
+          <div id="analytics-weak-msg-container"
+            style="margin-top:1.5rem;padding:15px;background:rgba(248,113,113,0.08);border-radius:8px;font-size:0.9rem;color:var(--text2);line-height:1.6; display: flex; gap: 12px; align-items: flex-start;">
+            <div style="font-size: 1.5rem;">🤖</div>
+            <div>
+              <strong style="color: var(--text);">Analytics AI says:</strong><br>
+              <em id="analytics-weak-msg">Loading insights...</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card" style="padding: 2rem;">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">🕒 Recent Quiz Performance</h3>
+          <div id="analytics-quiz-history" style="display: grid; gap: 0.75rem;">
+            <div style="padding: 2rem; text-align: center; color: var(--text3); border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">
+              No quiz history yet. Complete your first quiz to see your scores here!
+            </div>
           </div>
         </div>
       </div>
@@ -540,7 +597,16 @@
         <div class="motivation-quote" id="mot-quote">"The secret of getting ahead is getting started. You've already
           done that — now keep going!"</div>
         <div class="motivation-author" id="mot-author">— StudyMind AI</div>
-        <button class="btn-outline" style="margin-top:1rem;font-size:0.82rem" onclick="newQuote()">New Quote ↻</button>
+
+        <!-- Progress Bar for Auto-refresh -->
+        <div
+          style="width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 4px; margin-top: 1.5rem; overflow: hidden;">
+          <div id="mot-progress-bar"
+            style="height: 100%; width: 0%; background: var(--accent2); transition: width 0.1s linear;"></div>
+        </div>
+
+        <button class="btn-outline" style="margin-top:1rem;font-size:0.82rem" onclick="newQuote(true)">New Quote
+          ↻</button>
       </div>
       <div class="timer-card">
         <div style="font-size:0.82rem;color:var(--text2);margin-bottom:0.5rem">🍅 Focus Timer (Pomodoro)</div>
@@ -583,10 +649,11 @@
         </div>
       </div>
     </div>
+  </div>
   <!-- PROFILE -->
   <div id="page-profile" class="page">
     <div class="profile-container">
-      
+
       <!-- HEADER -->
       <div class="profile-header">
         <div class="profile-avatar-wrap">
@@ -598,8 +665,12 @@
           <p id="prof-email">student@example.com</p>
         </div>
         <div class="profile-actions">
-          <button class="btn-outline" style="padding: 8px 16px; font-size: 0.85rem;" onclick="downloadReport()">📥 Download</button>
-          <button class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="printReport()">🖨️ Print Report</button>
+          <button class="btn-outline" style="padding: 8px 16px; font-size: 0.85rem;" onclick="logout()">🚪 Sign
+            Out</button>
+          <button class="btn-outline" style="padding: 8px 16px; font-size: 0.85rem;" onclick="downloadReport()">📥
+            Download</button>
+          <button class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="printReport()">🖨️ Print
+            Report</button>
         </div>
       </div>
 
@@ -609,64 +680,70 @@
           <div class="p-stat-icon" style="background: rgba(244,114,182,0.1); color: #f472b6;">🔥</div>
           <div class="p-stat-content">
             <h4>Study Streak</h4>
-            <div class="p-val" id="prof-streak">5 Days</div>
+            <div class="p-val" id="prof-streak">0 Days</div>
+            <div class="p-stat-trend" id="prof-streak-trend" style="color:var(--text3);font-size:0.8rem;">No trend data
+              yet</div>
           </div>
         </div>
         <div class="p-stat-card">
           <div class="p-stat-icon" style="background: rgba(45,212,191,0.1); color: #2dd4bf;">📝</div>
           <div class="p-stat-content">
             <h4>Quizzes Done</h4>
-            <div class="p-val" id="prof-quizzes">24</div>
+            <div class="p-val" id="prof-quizzes">0</div>
+            <div class="p-stat-trend" id="prof-quizzes-trend" style="color:var(--text3);font-size:0.8rem;">No trend data
+              yet</div>
           </div>
         </div>
         <div class="p-stat-card">
           <div class="p-stat-icon" style="background: rgba(251,191,36,0.1); color: #fbbf24;">🎯</div>
           <div class="p-stat-content">
             <h4>Avg Score</h4>
-            <div class="p-val" id="prof-score">82%</div>
+            <div class="p-val" id="prof-score">0%</div>
+            <div class="p-stat-trend" id="prof-score-trend" style="color:var(--text3);font-size:0.8rem;">No trend data
+              yet</div>
           </div>
         </div>
         <div class="p-stat-card">
           <div class="p-stat-icon" style="background: rgba(124,106,247,0.1); color: #a89cff;">⏱️</div>
           <div class="p-stat-content">
             <h4>Study Hours</h4>
-            <div class="p-val" id="prof-hours">124h</div>
+            <div class="p-val" id="prof-hours">0h</div>
+            <div class="p-stat-trend" id="prof-hours-trend" style="color:var(--text3);font-size:0.8rem;">No trend data
+              yet</div>
           </div>
         </div>
       </div>
 
       <!-- LAYOUT -->
       <div class="profile-layout">
-        
+
         <!-- Main Column -->
         <div class="p-main">
-          
+
           <div class="p-section">
             <div class="p-section-header">
               <div class="p-section-title">📊 Study Analytics</div>
             </div>
-            
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
               <div>
-                <h4 style="font-size: 0.85rem; color: var(--text3); margin-bottom: 1rem; text-transform: uppercase;">Top Subjects</h4>
-                <div class="mini-prog">
-                  <div class="mini-prog-head"><span>Physics (Strongest)</span><span>92%</span></div>
-                  <div class="mini-prog-bar"><div class="mini-prog-fill" style="width: 92%; background: var(--green);"></div></div>
-                </div>
-                <div class="mini-prog">
-                  <div class="mini-prog-head"><span>Biology</span><span>85%</span></div>
-                  <div class="mini-prog-bar"><div class="mini-prog-fill" style="width: 85%; background: var(--accent);"></div></div>
+                <h4 style="font-size: 0.85rem; color: var(--text3); margin-bottom: 1rem; text-transform: uppercase;">Top
+                  Subjects</h4>
+                <div id="prof-improved-list">
+                  <div
+                    style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">
+                    Take quizzes to see your strongest subjects.
+                  </div>
                 </div>
               </div>
               <div>
-                <h4 style="font-size: 0.85rem; color: var(--text3); margin-bottom: 1rem; text-transform: uppercase;">Needs Focus</h4>
-                <div class="mini-prog">
-                  <div class="mini-prog-head"><span>Calculus (Weakest)</span><span>45%</span></div>
-                  <div class="mini-prog-bar"><div class="mini-prog-fill" style="width: 45%; background: var(--coral);"></div></div>
-                </div>
-                <div class="mini-prog">
-                  <div class="mini-prog-head"><span>Organic Chem</span><span>60%</span></div>
-                  <div class="mini-prog-bar"><div class="mini-prog-fill" style="width: 60%; background: var(--amber);"></div></div>
+                <h4 style="font-size: 0.85rem; color: var(--text3); margin-bottom: 1rem; text-transform: uppercase;">
+                  Needs Focus</h4>
+                <div id="prof-weak-list">
+                  <div
+                    style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">
+                    Take quizzes to identify weak areas.
+                  </div>
                 </div>
               </div>
             </div>
@@ -677,20 +754,11 @@
               <div class="p-section-title">📝 Recent Quizzes</div>
               <button class="action-chip" onclick="showPage('quiz')">Take New Quiz</button>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg3); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border);">
-                <div>
-                  <div style="font-weight: 500; font-size: 0.9rem;">Physics: Newton's Laws</div>
-                  <div style="font-size: 0.75rem; color: var(--text3); margin-top: 4px;">Yesterday • Hard</div>
-                </div>
-                <div style="color: var(--green); font-weight: 700;">4/5 (80%)</div>
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg3); padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border);">
-                <div>
-                  <div style="font-weight: 500; font-size: 0.9rem;">Math: Calculus Limits</div>
-                  <div style="font-size: 0.75rem; color: var(--text3); margin-top: 4px;">2 days ago • Medium</div>
-                </div>
-                <div style="color: var(--coral); font-weight: 700;">2/5 (40%)</div>
+            <div style="display: flex; flex-direction: column; gap: 10px;" id="recent-quizzes-list">
+              <div
+                style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">
+                No quizzes taken yet. <a href="#" onclick="showPage('quiz')" style="color: var(--accent);">Take your
+                  first quiz →</a>
               </div>
             </div>
           </div>
@@ -700,16 +768,12 @@
               <div class="p-section-title">📚 Generated Notes</div>
               <button class="action-chip" onclick="showPage('notes')">Generate More</button>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-              <div style="background: var(--bg3); padding: 1rem; border-radius: 10px; border: 1px solid var(--border);">
-                <div style="font-size: 1.2rem; margin-bottom: 8px;">🃏</div>
-                <div style="font-weight: 500; font-size: 0.85rem;">Cell Biology Flashcards</div>
-                <div style="font-size: 0.75rem; color: var(--text3); margin-top: 6px;">15 cards • Generated today</div>
-              </div>
-              <div style="background: var(--bg3); padding: 1rem; border-radius: 10px; border: 1px solid var(--border);">
-                <div style="font-size: 1.2rem; margin-bottom: 8px;">📄</div>
-                <div style="font-weight: 500; font-size: 0.85rem;">Photosynthesis Summary</div>
-                <div style="font-size: 0.75rem; color: var(--text3); margin-top: 6px;">Summary • 3 days ago</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;"
+              id="generated-notes-list">
+              <div
+                style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">
+                No notes generated yet. <a href="#" onclick="showPage('notes')" style="color: var(--accent);">Generate
+                  notes →</a>
               </div>
             </div>
           </div>
@@ -718,48 +782,21 @@
 
         <!-- Sidebar Column -->
         <div class="p-sidebar">
-          
+
           <div class="ai-recs-card" style="margin-bottom: 1.5rem;">
             <div class="p-section-title" style="margin-bottom: 1rem;">✨ AI Recommendations</div>
-            <div class="rec-item">
-              <div class="rec-icon">🧠</div>
-              <div class="rec-text">
-                <strong>Review Calculus Limits</strong>
-                Your last quiz score was 40%. I suggest allocating 30 mins to review this topic today.
-              </div>
-            </div>
-            <div class="rec-item">
-              <div class="rec-icon">🎯</div>
-              <div class="rec-text">
-                <strong>Try a Mock Test</strong>
-                You've consistently scored above 80% in Physics. You are ready for a full chapter test!
-              </div>
+            <div
+              style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">
+              Complete quizzes and study sessions to get personalized AI recommendations.
             </div>
           </div>
 
           <div class="p-section">
             <div class="p-section-title" style="margin-bottom: 1.25rem;">⚡ AI Activity</div>
-            <div class="timeline">
-              <div class="timeline-item">
-                <div class="tl-dot">🤖</div>
-                <div class="tl-content">
-                  <div class="tl-time">Today, 2:30 PM</div>
-                  <div class="tl-title">Doubt Solver answered 2 math queries</div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="tl-dot">📅</div>
-                <div class="tl-content">
-                  <div class="tl-time">Yesterday, 9:00 AM</div>
-                  <div class="tl-title">Planner adjusted schedule for weak subjects</div>
-                </div>
-              </div>
-              <div class="timeline-item">
-                <div class="tl-dot">🌟</div>
-                <div class="tl-content">
-                  <div class="tl-time">3 days ago</div>
-                  <div class="tl-title">Motivation AI celebrated your 5-day streak</div>
-                </div>
+            <div class="timeline" id="ai-activity-list">
+              <div
+                style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">
+                No activity yet. Start using the AI tools to see your history here.
               </div>
             </div>
           </div>
@@ -772,7 +809,1022 @@
 
   <div id="toast">✓ Done!</div>
 
-  <script type="module" src="js/app.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const GEMINI_API_KEY = "AIzaSyAz2MnL3TD7amzhiEjnNPjCqYg_1gy-FOk";
+    const GEMINI_MODEL = "gemini-2.5-flash";
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+
+    // Central Gemini helper — always surfaces real errors
+    async function callGemini(prompt, systemPrompt = null) {
+      const body = {
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 1500 }
+      };
+      if (systemPrompt) body.systemInstruction = { parts: [{ text: systemPrompt }] };
+
+      const res = await fetch(GEMINI_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': GEMINI_API_KEY },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      console.log('[Gemini response]', data);
+
+      if (data.error) {
+        const msg = data.error.message || 'Unknown API error';
+        showToast(`AI Error: ${msg}`);
+        console.error('[Gemini API error]', data.error);
+        return null;
+      }
+
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) {
+        showToast('AI returned an empty response. Please try again.');
+        console.warn('[Gemini] Empty response:', data);
+        return null;
+      }
+      return text;
+    }
+
+    // ======================== NAVIGATION ========================
+    function showPage(name) {
+      if (name === 'profile' && typeof auth !== 'undefined' && !auth.currentUser) {
+        showToast("Please sign in to access your profile");
+        showPage('home');
+        const loginBtn = document.getElementById('google-login-btn');
+        if (loginBtn) loginBtn.click();
+        return;
+      }
+
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      if (name === 'analytics') renderCharts();
+      window.scrollTo(0, 0);
+    }
+
+    function openAgent(agentId) {
+      showPage('chat');
+      const agentBtns = document.querySelectorAll('.agent-btn');
+      agentBtns.forEach(btn => btn.classList.remove('active'));
+      const agentMap = { teacher: 0, doubt: 1, notes: 2, motivation: 3, planner: 4 };
+      if (agentMap[agentId] !== undefined) {
+        agentBtns[agentMap[agentId]].classList.add('active');
+        switchAgentById(agentId);
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    // ======================== CHAT ========================
+    let currentAgent = 'teacher';
+    const agentProfiles = {
+      teacher: { name: 'Teacher AI', desc: 'Explains concepts clearly', icon: '👩‍🏫', bg: 'rgba(124,106,247,0.12)', system: 'You are Teacher AI, a brilliant educational assistant. Explain concepts simply, step-by-step. Always offer 3 modes: Easy (beginner), Exam (concise), Detailed (deep dive). Start responses with which mode you\'re using. Be encouraging and clear. Keep responses concise but complete.' },
+      doubt: { name: 'Doubt Solver', desc: 'Step-by-step problem solver', icon: '🤖', bg: 'rgba(248,113,113,0.1)', system: 'You are Doubt Solver AI, specialized in solving academic problems step-by-step. Show all working. For math/science, number each step clearly. End with a summary of the method used. Be precise and educational.' },
+      notes: { name: 'Notes AI', desc: 'Summarizes and structures notes', icon: '📚', bg: 'rgba(45,212,191,0.1)', system: 'You are Notes AI. Summarize text clearly, create flashcard-style Q&A, extract key points with bullets. Structure output well. Be concise and highlight the most important concepts.' },
+      motivation: { name: 'Motivation AI', desc: 'Your study coach', icon: '🌟', bg: 'rgba(244,114,182,0.1)', system: 'You are Motivation AI, a warm and encouraging study coach. Detect stress or burnout from messages and respond supportively. Give practical productivity tips. Celebrate achievements enthusiastically. Keep responses uplifting and brief.' },
+      planner: { name: 'Planner AI', desc: 'Study schedule optimizer', icon: '📅', bg: 'rgba(96,165,250,0.1)', system: 'You are Planner AI. Create detailed, realistic study schedules. Consider weak subjects, exam dates, and daily capacity. Format schedules clearly with times and durations. Give practical, actionable advice.' }
+    };
+
+    function switchAgent(agentId, btn) {
+      document.querySelectorAll('.agent-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      switchAgentById(agentId);
+    }
+
+    function switchAgentById(agentId) {
+      currentAgent = agentId;
+      const profile = agentProfiles[agentId];
+      document.getElementById('agent-name').textContent = profile.name;
+      document.getElementById('agent-desc').textContent = profile.desc;
+      const icon = document.getElementById('agent-icon');
+      icon.textContent = profile.icon;
+      icon.style.background = profile.bg;
+      const msgs = document.getElementById('chat-messages');
+      msgs.innerHTML = `<div class="message"><div class="msg-avatar">${profile.icon}</div><div><div class="msg-bubble">Hi! I'm ${profile.name}. ${getWelcome(agentId)}</div><div class="msg-time">Just now</div></div></div>`;
+    }
+
+    function getWelcome(id) {
+      const w = { teacher: 'Ask me to explain any concept — try "explain photosynthesis in easy mode" or "what is Newton\'s second law?"', doubt: 'Give me any problem to solve! I\'ll show step-by-step solutions. Try "solve x² + 5x + 6 = 0"', notes: 'Paste any text and I\'ll summarize it, make flashcards, or extract key points for you!', motivation: 'How are you feeling today? I\'m here to keep you motivated and productive! 💪', planner: 'Tell me about your exams and I\'ll build a personalized study schedule for you!' };
+      return w[id] || 'How can I help you today?';
+    }
+
+    function setQuickPrompt(text) {
+      document.getElementById('chat-input').value = text;
+      document.getElementById('chat-input').focus();
+    }
+
+    function handleChatKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); }
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      const msgs = document.getElementById('chat-messages');
+      msgs.innerHTML += `<div class="message user"><div class="msg-avatar">ME</div><div><div class="msg-bubble">${escHtml(text)}</div><div class="msg-time">Just now</div></div></div>`;
+
+      const loadId = 'load-' + Date.now();
+      msgs.innerHTML += `<div class="message" id="${loadId}"><div class="msg-avatar">${agentProfiles[currentAgent].icon}</div><div><div class="loading-msg"><div class="spinner"></div> ${agentProfiles[currentAgent].name} is thinking…</div></div></div>`;
+      msgs.scrollTop = msgs.scrollHeight;
+
+      try {
+        const reply = await callGemini(text, agentProfiles[currentAgent].system);
+        const displayText = reply || 'Sorry, I had trouble responding. Please try again.';
+        const htmlContent = marked.parse(displayText);
+        document.getElementById(loadId).outerHTML = `<div class="message"><div class="msg-avatar">${agentProfiles[currentAgent].icon}</div><div><div class="msg-bubble">${htmlContent}</div><div class="msg-time">Just now</div></div></div>`;
+      } catch (e) {
+        console.error('[Chat error]', e);
+        document.getElementById(loadId).outerHTML = `<div class="message"><div class="msg-avatar">${agentProfiles[currentAgent].icon}</div><div><div class="msg-bubble" style="color:var(--coral)">Network error: ${e.message}</div></div></div>`;
+      }
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function escHtml(t) {
+      return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+    }
+
+    // ======================== QUIZ ========================
+    let quizQuestions = [];
+    let currentQ = 0;
+    let score = 0;
+
+    async function startQuiz() {
+      const subject = document.getElementById('quiz-subject').value;
+      const topic = document.getElementById('quiz-topic').value;
+      const diff = document.getElementById('quiz-diff').value;
+      const count = document.getElementById('quiz-count').value;
+
+      const btn = document.getElementById('start-quiz-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Generating with AI…';
+
+      try {
+        const prompt = `Create ${count} multiple choice questions about ${subject} - ${topic} at ${diff} difficulty level. Return ONLY a JSON array, no markdown, no explanation. Format: [{"question":"...","options":["A) ...","B) ...","C) ...","D) ..."],"answer":0,"explanation":"..."}] where answer is the 0-based index of the correct option.`;
+        const raw = await callGemini(prompt);
+        if (!raw) { btn.disabled = false; btn.innerHTML = 'Generate Quiz with AI →'; return; }
+        const clean = raw.replace(/```json|```/g, '').trim();
+        quizQuestions = JSON.parse(clean);
+        currentQ = 0; score = 0;
+        document.getElementById('quiz-setup-view').style.display = 'none';
+        document.getElementById('quiz-active-view').style.display = 'block';
+        renderQuestion();
+      } catch (e) {
+        console.error('[Quiz error]', e);
+        showToast(`Quiz error: ${e.message}`);
+      }
+      btn.disabled = false;
+      btn.innerHTML = 'Generate Quiz with AI →';
+    }
+
+    function renderQuestion() {
+      const q = quizQuestions[currentQ];
+      document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${quizQuestions.length}`;
+      document.getElementById('q-score-live').textContent = `Score: ${score}`;
+      document.getElementById('q-progress').style.width = ((currentQ + 1) / quizQuestions.length * 100) + '%';
+      document.getElementById('question-text').textContent = q.question;
+      document.getElementById('explanation-box').style.display = 'none';
+      document.getElementById('next-q-btn').style.display = 'none';
+      const opts = document.getElementById('options-container');
+      opts.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = () => selectAnswer(i, btn);
+        opts.appendChild(btn);
+      });
+    }
+
+    function selectAnswer(idx, btn) {
+      const q = quizQuestions[currentQ];
+      document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+      if (idx === q.answer) {
+        btn.classList.add('correct'); score++;
+      } else {
+        btn.classList.add('wrong');
+        document.querySelectorAll('.option-btn')[q.answer].classList.add('correct');
+      }
+      const expBox = document.getElementById('explanation-box');
+      expBox.textContent = '💡 ' + q.explanation;
+      expBox.style.display = 'block';
+      document.getElementById('q-score-live').textContent = `Score: ${score}`;
+      document.getElementById('next-q-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+      currentQ++;
+      if (currentQ >= quizQuestions.length) showResult();
+      else renderQuestion();
+    }
+
+    function showResult() {
+      document.getElementById('quiz-active-view').style.display = 'none';
+      document.getElementById('quiz-result-view').style.display = 'block';
+      document.getElementById('final-score').textContent = `${score}/${quizQuestions.length}`;
+      const pct = score / quizQuestions.length;
+      const titleEl = document.getElementById('score-title');
+      const msgEl = document.getElementById('score-msg');
+      if (pct >= 0.8) { titleEl.textContent = '🎉 Excellent!'; msgEl.textContent = 'Outstanding performance! You have a strong grasp of this topic.'; }
+      else if (pct >= 0.6) { titleEl.textContent = '👍 Good Job!'; msgEl.textContent = 'Solid performance. Review the questions you missed and keep practicing.'; }
+      else { titleEl.textContent = '📖 Keep Practicing'; msgEl.textContent = 'Don\'t worry! Review the topic and try again. Each attempt improves your understanding.'; }
+
+      // Save to database
+      const subject = document.getElementById('quiz-subject').value;
+      const topic = document.getElementById('quiz-topic').value;
+      saveQuizResult(subject, topic, score, quizQuestions.length);
+    }
+
+    async function saveQuizResult(subject, topic, score, total) {
+      if (!auth.currentUser) return;
+      const userRef = doc(db, 'users', auth.currentUser.uid);
+      const scorePct = Math.round((score / total) * 100);
+
+      try {
+        // 1. Calculate new average score
+        let currentTotalQuizzes = (window.currentUserData?.quizzesDone || 0);
+        let currentAvg = (window.currentUserData?.avgScore || 0);
+        let newAvg = Math.round(((currentAvg * currentTotalQuizzes) + scorePct) / (currentTotalQuizzes + 1));
+
+        // 2. Update Firestore
+        await updateDoc(userRef, {
+          quizzesDone: increment(1),
+          avgScore: newAvg,
+          quizHistory: arrayUnion({
+            subject,
+            topic,
+            score,
+            total,
+            percentage: scorePct,
+            date: new Date().toISOString()
+          })
+        });
+
+        // 3. Update local cache and UI
+        if (window.currentUserData) {
+          window.currentUserData.quizzesDone = (window.currentUserData.quizzesDone || 0) + 1;
+          window.currentUserData.avgScore = newAvg;
+          updateUIForLoggedInUser(auth.currentUser.displayName, auth.currentUser.photoURL, window.currentUserData);
+        }
+
+        console.log("Quiz result saved to Firestore!");
+        showToast("Score saved to your profile! 📊");
+      } catch (err) {
+        console.error("Error saving quiz result:", err);
+      }
+    }
+
+    function restartQuiz() {
+      document.getElementById('quiz-result-view').style.display = 'none';
+      document.getElementById('quiz-setup-view').style.display = 'block';
+    }
+
+    // ======================== NOTES ========================
+    let notesMode = 'summary';
+
+    function selectMode(mode) {
+      notesMode = mode;
+      document.querySelectorAll('.action-chip').forEach(c => c.classList.remove('active'));
+      document.getElementById('chip-' + mode).classList.add('active');
+    }
+
+    async function processNotes() {
+      const text = document.getElementById('notes-input').value.trim();
+      if (!text) { showToast('Please paste some text first!'); return; }
+      const btn = document.getElementById('process-btn');
+      btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Processing…';
+
+      const prompts = {
+        summary: `Summarize the following text in 3-5 clear paragraphs. Highlight the most important concepts. Use simple language.\n\nText: ${text}`,
+        flashcards: `Create 6-8 flashcards from the following text. Return ONLY JSON array, no markdown: [{"q":"question","a":"answer"}]\n\nText: ${text}`,
+        keypoints: `Extract 8-10 key points from the following text. Format as a numbered list. Each point should be concise (1-2 sentences).\n\nText: ${text}`,
+        mindmap: `Create a mind map structure from the following text. Format as: Main Topic → Sub-topics → Details. Use clear hierarchy with arrows (→). Keep it organized.\n\nText: ${text}`
+      };
+
+      try {
+        const reply = await callGemini(prompts[notesMode]);
+        if (!reply) {
+          document.getElementById('notes-output').innerHTML = '<span style="color:var(--coral)">AI returned no response. Check the console for details.</span>';
+        } else {
+          displayNotesOutput(reply, notesMode);
+        }
+      } catch (e) {
+        console.error('[Notes error]', e);
+        document.getElementById('notes-output').innerHTML = `<span style="color:var(--coral)">Error: ${e.message}</span>`;
+      }
+      btn.disabled = false; btn.innerHTML = 'Process with AI →';
+    }
+
+    function displayNotesOutput(reply, mode) {
+      const out = document.getElementById('notes-output');
+      if (mode === 'flashcards') {
+        try {
+          const clean = reply.replace(/```json|```/g, '').trim();
+          const cards = JSON.parse(clean);
+          out.innerHTML = '<div class="flashcard-stack">' + cards.map(c => `<div class="flashcard"><div class="fc-q">Q: ${escHtml(c.q)}</div><div class="fc-a">A: ${escHtml(c.a)}</div></div>`).join('') + '</div>';
+        } catch { 
+          out.innerHTML = `<div class="summary-card">${marked.parse(reply)}</div>`; 
+        }
+      } else {
+        out.innerHTML = `<div class="summary-card">${marked.parse(reply)}</div>`;
+      }
+    }
+
+    // ======================== PLANNER ========================
+    async function generatePlan() {
+      const scheduleList = document.getElementById('schedule-list');
+      const goalsList = document.getElementById('goals-list');
+      if (scheduleList) scheduleList.innerHTML = `<div style="padding:2rem;text-align:center;color:var(--text3);"><div class="spinner" style="margin:0 auto 0.5rem;"></div>Planner AI is building your schedule…</div>`;
+
+      // Gather user context from Firestore data if available
+      const user = typeof auth !== 'undefined' ? auth.currentUser : null;
+      const streakInfo = user ? (document.getElementById('home-streak')?.textContent || '0 Days') : '0 Days';
+      const quizzesInfo = user ? (document.getElementById('home-quizzes')?.textContent || '0') : '0';
+      const scoreInfo = user ? (document.getElementById('home-score')?.textContent || '0%') : '0%';
+      const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+      const prompt = `You are Planner AI for a student study app. Generate a realistic study schedule for today (${today}).
+
+Student context:
+- Study streak: ${streakInfo}
+- Quizzes completed: ${quizzesInfo}
+- Average quiz score: ${scoreInfo}
+
+Return ONLY a JSON object, no markdown, with this exact structure:
+{
+  "schedule": [
+    { "time": "7:00 AM", "subject": "Mathematics — Algebra", "duration": "60 min", "color": "#a89cff" },
+    ...
+  ],
+  "goals": [
+    "Complete 2 chapters of Physics",
+    "Take 1 quiz on Chemistry",
+    "Review yesterday's flashcards"
+  ]
+}
+
+Include 5-7 schedule items with times, subjects (include topic), durations (30-120 min), and colors from this palette: #a89cff, #2dd4bf, #fbbf24, #4ade80, #60a5fa, #f472b6, #f87171. Include a lunch/break block. Include 3-5 goals. Be realistic and varied.`;
+
+      try {
+        const raw = await callGemini(prompt);
+        if (!raw) {
+          if (scheduleList) scheduleList.innerHTML = `<div style="padding:1.5rem;text-align:center;color:var(--coral);font-size:0.9rem;">AI returned no response. Check console for details.</div>`;
+          return;
+        }
+        const clean = raw.replace(/```json|```/g, '').trim();
+        const plan = JSON.parse(clean);
+
+        if (scheduleList && plan.schedule) {
+          scheduleList.innerHTML = plan.schedule.map(item => `
+            <div class="schedule-item">
+              <span class="time">${item.time}</span>
+              <div class="subj-dot" style="background:${item.color}"></div>
+              <span class="subject">${item.subject}</span>
+              <span class="duration">${item.duration}</span>
+            </div>
+          `).join('');
+        }
+        if (goalsList && plan.goals) {
+          goalsList.innerHTML = plan.goals.map(goal => `
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.85rem">
+              <input type="checkbox" style="accent-color:var(--accent)">
+              <span style="color:var(--text)">${goal}</span>
+            </div>
+          `).join('');
+        }
+        showToast('📅 Schedule generated by Planner AI!');
+      } catch (e) {
+        console.error('[Planner error]', e);
+        if (scheduleList) scheduleList.innerHTML = `<div style="padding:1.5rem;text-align:center;color:var(--coral);font-size:0.9rem;">Error: ${e.message}</div>`;
+      }
+    }
+
+    // ======================== ANALYTICS ========================
+    function renderCharts() {
+      // Use real study hours data from Firestore (stored per-day) if available, else zeroes
+      const storedData = window._studyHoursHistory || [0, 0, 0, 0, 0, 0, 0];
+      const hoursData = storedData;
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const maxH = Math.max(...hoursData, 1);
+      const hChart = document.getElementById('hours-chart');
+      if (hChart) {
+        if (hoursData.every(h => h === 0)) {
+          hChart.innerHTML = `<div style="width:100%;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:0.85rem;padding:2rem 0;">Take quizzes and study sessions to see your hours chart.</div>`;
+        } else {
+          const colors = ['#a89cff', '#a89cff', '#a89cff', '#a89cff', '#a89cff', '#60a5fa', '#5a5d6e'];
+          hChart.innerHTML = hoursData.map((h, i) => `<div class="bar-wrap"><div class="bar" style="height:${(h / maxH) * 100}%;background:${colors[i]}"></div><div class="bar-label">${days[i]}</div></div>`).join('');
+        }
+      }
+
+      // Build subject chart from analytics weakAreas/improvedAreas if available
+      const analyticsData = window._lastUserAnalytics;
+      const sChart = document.getElementById('subject-chart');
+      if (sChart) {
+        if (!analyticsData || (!analyticsData.improvedAreas?.length && !analyticsData.weakAreas?.length)) {
+          sChart.innerHTML = `<div style="padding:2rem;text-align:center;color:var(--text3);font-size:0.85rem;">Take quizzes to see your subject performance chart.</div>`;
+        } else {
+          const subjectColors = { improved: '#4ade80', weak: '#f87171', neutral: '#a89cff' };
+          const allSubjects = [
+            ...(analyticsData.improvedAreas || []).map(a => ({ name: a.subject, pct: parseInt(a.trend) + 70, color: subjectColors.improved })),
+            ...(analyticsData.weakAreas || []).map(a => ({ name: a.subject, pct: Math.max(10, 70 + parseInt(a.trend)), color: subjectColors.weak }))
+          ];
+          sChart.innerHTML = allSubjects.map(s => `<div class="subject-row"><div class="subject-name">${s.name}</div><div class="subject-bar-wrap"><div class="subject-bar" style="width:${s.pct}%;background:${s.color}"></div></div><div class="subject-pct">${s.pct}%</div></div>`).join('');
+        }
+      }
+    }
+
+    // ======================== MOTIVATION ========================
+    async function generateAIQuote() {
+      try {
+        const prompt = `Generate a single unique, powerful motivational quote for a student who is studying hard. Make it original, not a cliché. Keep it under 30 words. Return ONLY a JSON object: {"q": "the quote text", "a": "Author Name or StudyMind AI", "e": "one emoji"}`;
+        const res = await fetch(GEMINI_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            generationConfig: { maxOutputTokens: 100 }
+          })
+        });
+        const data = await res.json();
+        const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        const clean = raw.replace(/```json|```/g, '').trim();
+        return JSON.parse(clean);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    const quotes = [
+      { q: "The secret of getting ahead is getting started. You've already done that — now keep going!", a: "StudyMind AI", e: "💪" },
+      { q: "Success is the sum of small efforts repeated day in and day out.", a: "Robert Collier", e: "🌟" },
+      { q: "Believe you can and you're halfway there. The other half? Consistent study sessions.", a: "StudyMind AI", e: "🚀" },
+      { q: "Education is the most powerful weapon which you can use to change the world.", a: "Nelson Mandela", e: "📚" },
+      { q: "Don't watch the clock; do what it does. Keep going.", a: "Sam Levenson", e: "⏰" },
+      { q: "Every expert was once a beginner. Your confusion today is your clarity tomorrow.", a: "StudyMind AI", e: "✨" }
+    ];
+    let quoteIdx = 0;
+    let motInterval;
+    let motProgressInterval;
+
+    function startMotAutoRefresh() {
+      clearInterval(motInterval);
+      clearInterval(motProgressInterval);
+
+      const pb = document.getElementById('mot-progress-bar');
+      if (pb) {
+        pb.style.transition = 'none';
+        pb.style.width = '0%';
+        // Force reflow
+        void pb.offsetWidth;
+        pb.style.transition = 'width 0.1s linear';
+      }
+
+      let elapsed = 0;
+      motProgressInterval = setInterval(() => {
+        elapsed += 100;
+        const pct = (elapsed / 10000) * 100;
+        if (pb) pb.style.width = `${pct}%`;
+      }, 100);
+
+      motInterval = setInterval(() => {
+        newQuote(false);
+        startMotAutoRefresh(); // Restart the cycle
+      }, 10000);
+    }
+
+    async function newQuote(manual = false) {
+      if (manual) {
+        // Try to fetch a fresh AI quote
+        const aiQuote = await generateAIQuote();
+        const q = aiQuote || quotes[(quoteIdx + 1) % quotes.length];
+        if (!aiQuote) quoteIdx = (quoteIdx + 1) % quotes.length;
+        const emojiEl = document.getElementById('mot-emoji');
+        if (emojiEl) emojiEl.textContent = q.e;
+        const quoteEl = document.getElementById('mot-quote');
+        if (quoteEl) quoteEl.textContent = `"${q.q}"`;
+        const authorEl = document.getElementById('mot-author');
+        if (authorEl) authorEl.textContent = `— ${q.a}`;
+        startMotAutoRefresh();
+      } else {
+        quoteIdx = (quoteIdx + 1) % quotes.length;
+        const q = quotes[quoteIdx];
+        const emojiEl = document.getElementById('mot-emoji');
+        if (emojiEl) emojiEl.textContent = q.e;
+        const quoteEl = document.getElementById('mot-quote');
+        if (quoteEl) quoteEl.textContent = `"${q.q}"`;
+        const authorEl = document.getElementById('mot-author');
+        if (authorEl) authorEl.textContent = `— ${q.a}`;
+      }
+    }
+
+    startMotAutoRefresh();
+
+    // ======================== TIMER ========================
+    let timerTotal = 25 * 60;
+    let timerLeft = timerTotal;
+    let timerRunning = false;
+    let timerInterval = null;
+    let timerLabel = 'Focus session';
+
+    function setTimer(secs, label, btn) {
+      timerTotal = secs; timerLeft = secs; timerLabel = label;
+      document.querySelectorAll('.timer-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderTimer(); document.getElementById('timer-label').textContent = label;
+      if (timerRunning) { clearInterval(timerInterval); timerRunning = false; document.getElementById('start-stop-btn').textContent = '▶ Start'; }
+    }
+
+    function renderTimer() {
+      const m = Math.floor(timerLeft / 60).toString().padStart(2, '0');
+      const s = (timerLeft % 60).toString().padStart(2, '0');
+      document.getElementById('timer-display').textContent = `${m}:${s}`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('start-stop-btn');
+      if (timerRunning) {
+        clearInterval(timerInterval); timerRunning = false; btn.textContent = '▶ Start';
+      } else {
+        timerRunning = true; btn.textContent = '⏸ Pause';
+        timerInterval = setInterval(() => {
+          timerLeft--;
+          renderTimer();
+          if (timerLeft <= 0) {
+            clearInterval(timerInterval); timerRunning = false;
+            btn.textContent = '▶ Start';
+            showToast('⏰ Timer done! Take a break.');
+            timerLeft = timerTotal; renderTimer();
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval); timerRunning = false;
+      timerLeft = timerTotal; renderTimer();
+      document.getElementById('start-stop-btn').textContent = '▶ Start';
+    }
+
+    // ======================== COUNTDOWN ========================
+    function updateCountdown() {
+      const exam = new Date('2026-05-21');
+      const now = new Date();
+      const diff = Math.ceil((exam - now) / (1000 * 60 * 60 * 24));
+      document.getElementById('countdown-days').textContent = diff > 0 ? diff : '0';
+    }
+    updateCountdown();
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBNg2FbRPDZ2kIbvN1rxkNl7cBqJ_hcmwM",
+      authDomain: "studymind-ai-1dcb9.firebaseapp.com",
+      projectId: "studymind-ai-1dcb9",
+      storageBucket: "studymind-ai-1dcb9.firebasestorage.app",
+      messagingSenderId: "998626741203",
+      appId: "1:998626741203:web:73979c2df52f2e53517d26",
+      measurementId: "G-8TJ2C0YDY4"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    const db = getFirestore(app);
+
+    async function loadUserProfile(user) {
+      const userRef = doc(db, 'users', user.uid);
+      try {
+        const docSnap = await getDoc(userRef);
+        let userData;
+
+        if (!docSnap.exists()) {
+          userData = {
+            name: user.displayName,
+            email: user.email,
+            studyStreak: 1,
+            quizzesDone: 0,
+            avgScore: 0,
+            studyHours: 0,
+            createdAt: new Date().toISOString()
+          };
+          await setDoc(userRef, userData);
+          console.log("Created new Firestore student profile!");
+        } else {
+          userData = docSnap.data();
+          console.log("Loaded existing student profile from Firestore");
+        }
+
+
+
+        if (!userData.analytics) {
+          userData.analytics = {
+            trends: {
+              streak: "No data yet",
+              quizzes: "No data yet",
+              score: "No data yet",
+              hours: "No data yet"
+            },
+            improvedAreas: [],
+            weakAreas: [],
+            messages: {
+              improved: "Take your first quiz to unlock insights!",
+              weak: "Complete a study session so Planner AI can analyze your weak spots."
+            }
+          };
+          await setDoc(userRef, { analytics: userData.analytics }, { merge: true });
+        }
+
+        // Cache for charts
+        window._lastUserAnalytics = userData.analytics || null;
+        window._studyHoursHistory = userData.studyHoursHistory || [0, 0, 0, 0, 0, 0, 0];
+
+        window.currentUserData = userData;
+        return userData;
+
+      } catch (err) {
+        console.error("Firestore error: ", err);
+        showToast("Error loading profile data");
+      }
+    }
+
+    function updateUIForLoggedInUser(name, photoURL, userData) {
+      const loginBtn = document.getElementById('google-login-btn');
+      if (loginBtn) loginBtn.textContent = 'Go to Profile';
+
+      const heroTitle = document.querySelector('.hero h1');
+      if (heroTitle && name) {
+        heroTitle.innerHTML = `Welcome back,<br><span>${name.split(' ')[0]}!</span>`;
+      }
+      const heroDesc = document.querySelector('.hero p');
+      if (heroDesc) {
+        heroDesc.textContent = "Your AI Study Team is ready. What would you like to learn today?";
+      }
+
+      const navProfile = document.querySelector('.nav-cta div');
+      if (navProfile && photoURL) {
+        navProfile.innerHTML = `<img src="${photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+        navProfile.style.background = 'transparent';
+      }
+
+      const loggedOutView = document.getElementById('home-logged-out-content');
+      const loggedInView = document.getElementById('home-logged-in-content');
+      if (loggedOutView) loggedOutView.style.display = 'none';
+      if (loggedInView) loggedInView.style.display = 'block';
+
+      if (userData) {
+        const homeStreak = document.getElementById('home-streak');
+        const homeQuizzes = document.getElementById('home-quizzes');
+        const homeScore = document.getElementById('home-score');
+        const homeHours = document.getElementById('home-hours');
+
+        if (homeStreak) homeStreak.textContent = `${userData.studyStreak || 0} Days`;
+        if (homeQuizzes) homeQuizzes.textContent = userData.quizzesDone || 0;
+        if (homeScore) homeScore.textContent = `${userData.avgScore || 0}%`;
+        if (homeHours) homeHours.textContent = `${userData.studyHours || 0}h`;
+
+        // Populate trend text from analytics (home + profile)
+        const trends = userData.analytics ? userData.analytics.trends : null;
+        const trendText = (key) => trends && trends[key] && trends[key] !== 'No data yet' ? trends[key] : 'No trend data yet';
+
+        ['streak', 'quizzes', 'score', 'hours'].forEach(key => {
+          const txt = trendText(key);
+          const homeEl = document.getElementById(`home-${key}-trend`);
+          const profEl = document.getElementById(`prof-${key}-trend`);
+          if (homeEl) homeEl.textContent = txt;
+          if (profEl) profEl.textContent = txt;
+        });
+
+        if (userData.analytics) {
+          const aHours = document.getElementById('analytics-hours');
+          const aHoursT = document.getElementById('analytics-hours-trend');
+          if (aHours) aHours.textContent = `${userData.studyHours || 0}h`;
+          if (aHoursT) aHoursT.textContent = userData.analytics.trends.hours;
+
+          const aAcc = document.getElementById('analytics-accuracy');
+          const aAccT = document.getElementById('analytics-accuracy-trend');
+          if (aAcc) aAcc.textContent = `${userData.avgScore || 0}%`;
+          if (aAccT) aAccT.textContent = userData.analytics.trends.score;
+
+          const aTop = document.getElementById('analytics-topics');
+          const aTopT = document.getElementById('analytics-topics-trend');
+          if (aTop) aTop.textContent = userData.quizzesDone || 0;
+          if (aTopT) aTopT.textContent = userData.analytics.trends.quizzes;
+
+          const aStr = document.getElementById('analytics-streak');
+          const aStrT = document.getElementById('analytics-streak-trend');
+          if (aStr) aStr.textContent = `${userData.studyStreak || 0} 🔥`;
+          if (aStrT) aStrT.textContent = userData.analytics.trends.streak;
+
+          const impList = document.getElementById('analytics-improved-list');
+          if (impList && userData.analytics.improvedAreas) {
+            if (userData.analytics.improvedAreas.length === 0) {
+              impList.innerHTML = `<div style="padding: 2rem; text-align: center; color: var(--text3); border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">Take a quiz to see your top performing areas here!</div>`;
+            } else {
+              impList.innerHTML = userData.analytics.improvedAreas.map(item => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg); border-radius: 8px;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(74,222,128,0.1); color: #4ade80; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">${item.icon}</div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.05rem;">${item.subject}</div>
+                  <div style="font-size: 0.85rem; color: var(--text3);">${item.category}</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-weight: 700; color: #4ade80; font-size: 1.1rem;">${item.trend}</div>
+                <div style="font-size: 0.8rem; color: var(--text2);">compared to last week</div>
+              </div>
+            </div>
+          `).join('');
+            }
+          }
+
+          const weakList = document.getElementById('analytics-weak-list');
+          if (weakList && userData.analytics.weakAreas) {
+            if (userData.analytics.weakAreas.length === 0) {
+              weakList.innerHTML = `<div style="padding: 2rem; text-align: center; color: var(--text3); border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">Complete a study session to find areas to improve.</div>`;
+            } else {
+              weakList.innerHTML = userData.analytics.weakAreas.map(item => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg); border-radius: 8px;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(248,113,113,0.1); color: #f87171; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">${item.icon}</div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.05rem;">${item.subject}</div>
+                  <div style="font-size: 0.85rem; color: var(--text3);">${item.category}</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-weight: 700; color: #f87171; font-size: 1.1rem;">${item.trend}</div>
+                <div style="font-size: 0.8rem; color: var(--text2);">compared to last week</div>
+              </div>
+            </div>
+          `).join('');
+            }
+          }
+
+          const msgImp = document.getElementById('analytics-improved-msg');
+          if (msgImp) msgImp.textContent = `"${userData.analytics.messages.improved}"`;
+
+          const msgWeak = document.getElementById('analytics-weak-msg');
+          if (msgWeak) msgWeak.textContent = `"${userData.analytics.messages.weak}"`;
+
+          // Render Quiz History (Analytics Page)
+          const historyList = document.getElementById('analytics-quiz-history');
+          if (historyList && userData.quizHistory) {
+            renderQuizHistoryList(historyList, userData.quizHistory);
+          }
+
+          // Render Quiz History (Profile Page)
+          const profHistoryList = document.getElementById('recent-quizzes-list');
+          if (profHistoryList && userData.quizHistory) {
+            renderQuizHistoryList(profHistoryList, userData.quizHistory);
+          }
+
+          // Update Profile Header & Stats
+          const pName = document.getElementById('prof-name');
+          const pEmail = document.getElementById('prof-email');
+          const pAvatar = document.getElementById('prof-avatar');
+          if (pName) pName.textContent = userData.name || name || "Student Name";
+          if (pEmail) pEmail.textContent = userData.email || "student@example.com";
+          if (pAvatar && photoURL) {
+            pAvatar.innerHTML = `<img src="${photoURL}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+          }
+
+          const pStreak = document.getElementById('prof-streak');
+          const pQuizzes = document.getElementById('prof-quizzes');
+          const pScore = document.getElementById('prof-score');
+          const pHours = document.getElementById('prof-hours');
+          if (pStreak) pStreak.textContent = `${userData.studyStreak || 0} Days`;
+          if (pQuizzes) pQuizzes.textContent = userData.quizzesDone || 0;
+          if (pScore) pScore.textContent = `${userData.avgScore || 0}%`;
+          if (pHours) pHours.textContent = `${userData.studyHours || 0}h`;
+
+          // Render Profile "Top Subjects" and "Needs Focus"
+          const pImpList = document.getElementById('prof-improved-list');
+          const pWeakList = document.getElementById('prof-weak-list');
+          
+          if (pImpList && userData.analytics.improvedAreas) {
+            if (userData.analytics.improvedAreas.length === 0) {
+              pImpList.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">Take quizzes to see your strongest subjects.</div>`;
+            } else {
+              pImpList.innerHTML = userData.analytics.improvedAreas.map(item => `
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                  <div style="font-size: 1.1rem;">${item.icon}</div>
+                  <div style="flex: 1;">
+                    <div style="font-weight: 600; font-size: 0.9rem;">${item.subject}</div>
+                    <div style="height: 4px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 4px;">
+                      <div style="height: 100%; width: ${item.trend.includes('+') ? '80%' : '60%'}; background: #4ade80; border-radius: 2px;"></div>
+                    </div>
+                  </div>
+                </div>
+              `).join('');
+            }
+          }
+
+
+
+          if (pWeakList && userData.analytics.weakAreas) {
+            if (userData.analytics.weakAreas.length === 0) {
+              pWeakList.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: var(--text3); font-size: 0.85rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">Take quizzes to identify weak areas.</div>`;
+            } else {
+              pWeakList.innerHTML = userData.analytics.weakAreas.map(item => `
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                  <div style="font-size: 1.1rem;">${item.icon}</div>
+                  <div style="flex: 1;">
+                    <div style="font-weight: 600; font-size: 0.9rem;">${item.subject}</div>
+                    <div style="height: 4px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 4px;">
+                      <div style="height: 100%; width: ${item.trend.includes('-') ? '40%' : '50%'}; background: #f87171; border-radius: 2px;"></div>
+                    </div>
+                  </div>
+                </div>
+              `).join('');
+            }
+          }
+        }
+      }
+    }
+
+    async function generateAIAnalytics() {
+      if (!auth.currentUser || !window.currentUserData?.quizHistory?.length) {
+        showToast("Take at least one quiz first!");
+        return;
+      }
+
+      const btn = document.getElementById('refresh-ai-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Analyzing...';
+
+      try {
+        const historyStr = JSON.stringify(window.currentUserData.quizHistory.slice(-10));
+        const systemPrompt = `You are an expert Study Analytics AI. Analyze the student's quiz history and provide deep insights.
+Return ONLY a JSON object with this structure:
+{
+  "improvedAreas": [{"subject": "Math", "category": "Algebra", "icon": "📐", "trend": "+12%"}],
+  "weakAreas": [{"subject": "History", "category": "Dates", "icon": "⏳", "trend": "-5%"}],
+  "messages": {
+    "improved": "Brief encouraging insight about their strengths.",
+    "weak": "Brief actionable advice for their weaknesses."
+  },
+  "trends": {
+    "streak": "Consistent!", "quizzes": "+3 this week", "score": "Rising steady", "hours": "Peak on Tue"
+  }
+}
+Keep "improvedAreas" and "weakAreas" to max 3 items each. Choose appropriate emojis.`;
+
+        const raw = await callGemini(`Student Quiz History: ${historyStr}`, systemPrompt);
+        if (raw) {
+          const clean = raw.replace(/```json|```/g, '').trim();
+          const newAnalytics = JSON.parse(clean);
+          const userRef = doc(db, 'users', auth.currentUser.uid);
+          await updateDoc(userRef, { analytics: newAnalytics });
+          window.currentUserData.analytics = newAnalytics;
+          updateUIForLoggedInUser(auth.currentUser.displayName, auth.currentUser.photoURL, window.currentUserData);
+          showToast("AI Analysis Complete! 🚀");
+        }
+      } catch (e) {
+        console.error('[Analytics AI error]', e);
+        showToast("AI analysis failed.");
+      }
+      btn.disabled = false;
+      btn.innerHTML = '✨ Refresh AI Insights';
+    }
+
+    function renderQuizHistoryList(container, history) {
+      if (history.length === 0) {
+        container.innerHTML = `<div style="padding: 2rem; text-align: center; color: var(--text3); border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px;">No quiz history yet. Complete your first quiz to see your scores here!</div>`;
+      } else {
+        const latest = [...history].reverse().slice(0, 5);
+        container.innerHTML = latest.map(q => `
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1rem; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <div style="font-size: 1.1rem;">📝</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.95rem;">${q.subject}</div>
+                <div style="font-size: 0.75rem; color: var(--text3);">${q.topic} • ${new Date(q.date).toLocaleDateString()}</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 700; color: ${q.percentage >= 80 ? '#4ade80' : q.percentage >= 60 ? '#fbbf24' : '#f87171'}; font-size: 1rem;">${q.percentage}%</div>
+              <div style="font-size: 0.7rem; color: var(--text3);">${q.score}/${q.total} correct</div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+
+    function updateUIForLoggedOutUser() {
+      const loginBtn = document.getElementById('google-login-btn');
+      if (loginBtn) loginBtn.textContent = 'Get Started';
+
+      const heroTitle = document.querySelector('.hero h1');
+      if (heroTitle) {
+        heroTitle.innerHTML = `Your Personal<br><span>AI Study Team</span>`;
+      }
+      const heroDesc = document.querySelector('.hero p');
+      if (heroDesc) {
+        heroDesc.textContent = "7 specialized AI agents working together — teaching, testing, planning, and motivating you to study smarter.";
+      }
+
+      const navProfile = document.querySelector('.nav-cta div');
+      if (navProfile) {
+        navProfile.innerHTML = `👤`;
+        navProfile.style.background = 'rgba(255,255,255,0.2)';
+      }
+
+      const loggedOutView = document.getElementById('home-logged-out-content');
+      const loggedInView = document.getElementById('home-logged-in-content');
+      if (loggedOutView) loggedOutView.style.display = 'block';
+      if (loggedInView) loggedInView.style.display = 'none';
+    }
+
+    // Listen for auth state changes
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userData = await loadUserProfile(user);
+        updateUIForLoggedInUser(user.displayName, user.photoURL, userData);
+      } else {
+        updateUIForLoggedOutUser();
+      }
+    });
+
+    // Setup Google Login Button
+    const loginBtn = document.getElementById('google-login-btn');
+    if (loginBtn) {
+      loginBtn.onclick = () => {
+        if (auth.currentUser) {
+          showPage('profile');
+        } else {
+          signInWithPopup(auth, provider)
+            .then(async (result) => {
+              showToast(`Welcome, ${result.user.displayName}!`);
+              const userData = await loadUserProfile(result.user);
+              updateUIForLoggedInUser(result.user.displayName, result.user.photoURL, userData);
+              showPage('profile');
+            }).catch((error) => {
+              console.error(error);
+              showToast(`Login failed: ${error.message}`);
+            });
+        }
+      };
+    }
+
+    // Report Functions
+    function downloadReport() {
+      showToast("📥 Preparing report download...");
+      setTimeout(() => showToast("✓ Report downloaded as PDF!"), 1500);
+    }
+
+    function printReport() {
+      window.print();
+    }
+
+    // Expose functions to global scope since this is a module
+    window.showPage = showPage;
+    window.openAgent = openAgent;
+    window.switchAgent = switchAgent;
+    window.switchAgentById = switchAgentById;
+    window.setQuickPrompt = setQuickPrompt;
+    window.handleChatKey = handleChatKey;
+    window.sendChatMessage = sendChatMessage;
+    window.startQuiz = startQuiz;
+    window.selectAnswer = selectAnswer;
+    window.nextQuestion = nextQuestion;
+    window.restartQuiz = restartQuiz;
+    window.selectMode = selectMode;
+    window.processNotes = processNotes;
+    window.generatePlan = generatePlan;
+    window.newQuote = newQuote;
+    window.setTimer = setTimer;
+    window.toggleTimer = toggleTimer;
+    window.resetTimer = resetTimer;
+    function logout() {
+      signOut(auth).then(() => {
+        showToast("Signed out successfully");
+        showPage('home');
+      }).catch((error) => {
+        console.error("Sign out error", error);
+        showToast("Error signing out");
+      });
+    }
+
+    window.logout = logout;
+    window.downloadReport = downloadReport;
+    window.printReport = printReport;
+
+  </script>
 </body>
 
 </html>
